@@ -40,6 +40,20 @@ export default {
               permissionName: '关于我'
             }
           ]
+        },
+        {
+          groupName: '权限',
+          path: 'permissionome',
+          children: [
+            {
+              urlLink: 'permissionome',
+              permissionName: 'permission1'
+            },
+             {
+              urlLink: 'aboutme',
+              permissionName: '关于我2'
+            }
+          ]
         }
       ]
     }
@@ -81,8 +95,6 @@ export default {
 .not-open{
   width: 65px !important;
   overflow-x: hidden;
-  // justify-content: center;
-  // display: flex
 }
 .is-open{
    width: auto;

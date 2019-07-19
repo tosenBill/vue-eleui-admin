@@ -20,21 +20,21 @@ export default Object.assign(
 				params
 			})
 		}
-	},
-	{
-		put ({ url, headers = this.getHeaders(), data = {}}) {
+  },
+  {
+		put ({ url, headers = this.getHeaders(), data = {} }) {
 			return axios({ method: 'put', url, headers, data, timeout: 15000 })
 		},
-		putParam ({ url, headers = this.getHeaders(), params = {}}) {
+		putParam ({ url, headers = this.getHeaders(), params = {} }) {
 			return axios({ method: 'put', url, headers, params, timeout: 15000 })
 		},
-		post ({ url, headers = this.getHeaders(), data = {}}) {
+		post ({ url, headers = this.getHeaders(), data = {} }) {
 			return axios({ method: 'post', url, headers, data, timeout: 15000 })
 		},
 		get ({ url, headers = this.getHeaders(), params = {}, responseType = 'json' }) {
 			return axios({ method: 'get', url, headers, params, responseType, timeout: 15000 })
 		},
-		delete ({ url, headers = this.getHeaders(), params = {}}) {
+		delete ({ url, headers = this.getHeaders(), params = {} }) {
 			return axios({ method: 'delete', url, headers, params, timeout: 15000 })
 		},
 		getHeaders () {
@@ -48,21 +48,4 @@ export default Object.assign(
 			return headers
 		}
 	}
-	// {
-	//     axios(url, data = {}, {
-	//         method = 'get',
-	//         headers = this.getHeader(),
-	//         timeout = 15000
-	//     } = {}) {
-	//         data = this.paramFormat(data)
-	//         let params = method == 'get' ? {params: data} : {data}
-	//         return axios({
-	//             method,
-	//             url,
-	//             headers,
-	//             timeout,
-	//             ...params,
-	//         })
-	//     },
-	// },
 )

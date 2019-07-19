@@ -19,6 +19,9 @@ export default {
   },
   created() {
     console.log('这是created home')
+  },
+  nounted () {
+
   }
 }
 </script>

@@ -1,24 +1,8 @@
 <template>
   <div id="Header">
     <div class="header_left">
-      <hamburger :toggle-click="toggleSideBar" :is-active="sidebar" class="hamburger-container"/>
+      <hamburger :toggle-click="toggleSideBar" :is-active="sidebar.opened" class="hamburger-container"/>
       <Breadcrumb/>
-    </div>
-    <div class="header_right">
-      <theme-picker class="theme-switch right-menu-item"/>
-      <div class="user_box">
-        <el-dropdown size="medium">
-          <span class="el-dropdown-link">
-            {{userName || '佚名'}}
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <div @click="loginOut_clickHandler">退出</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
     </div>
   </div>
 </template>
@@ -46,9 +30,6 @@ export default {
   computed: {
     ...mapGetters({
       sidebar: 'sidebar'
-      // userInfo: "getUserInfo",
-      // stores: "getStores",
-      // storeLen: "getStoreLen"
     })
   },
   props: [],
@@ -70,7 +51,7 @@ export default {
     this.userName = _userName
   },
   mounted() {
-    // console.log(this.sidebar)
+    console.log(this.sidebar)
    },
   destroyed() { },
   watch: {}
@@ -83,6 +64,7 @@ export default {
   line-height: 50px;
   width: 100%;
   display: flex;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .header_left {
     // float: left;
     flex: 1;

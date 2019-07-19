@@ -13,6 +13,7 @@ export default new Router({
       path: '/',
       component: Layout,
       hidden: true,
+      redirect: '/home',
       children: [
         {
           name: 'home',
@@ -25,14 +26,20 @@ export default new Router({
           path: 'about',
           meta: { title: '关于我', keepAlive: true },
           component: () => import('../views/about/index.vue')
+        },
+        {
+          name: 'permissionome',
+          path: 'permissionome',
+          meta: { title: '权限1', keepAlive: true },
+          component: () => import('../views/about/index.vue')
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      meta: { isSide: true }
-      // component: () => import(/* webpackChunkName: "login" */ "../views/Login/index.vue"),
+      meta: { isSide: true },
+      component: () => import('../views/start/login.vue')
     },
 
     {
