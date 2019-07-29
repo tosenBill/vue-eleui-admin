@@ -6,13 +6,14 @@ let API_HOST
 
 switch (_ENV) {
 	case 'production':
-		API_HOST = 'http://omm.dianjia001.com/api/'
+    API_HOST = 'http://5g.meixuanlife.com'
 		break
 	case 'testing':
-		API_HOST = 'http://omm.17dianjia.net/api/'
+		API_HOST = 'http://5g.meixuanlife.com'
 		break
 	default :
-		API_HOST = 'http://omm.17dianjia.net/api/'
+    // API_HOST = 'http://5g.meixuanlife.com'
+    API_HOST = '/api'
 }
 export default {
 	API_HOST

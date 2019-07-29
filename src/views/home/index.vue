@@ -20,8 +20,11 @@ export default {
   created() {
     console.log('这是created home')
   },
-  nounted () {
-
+  mounted () {
+    this.$http.loginIn({
+      cellPhone: '15801573461',
+      password: 'qqqqqq'
+    })
   }
 }
 </script>
