@@ -12,7 +12,7 @@ import Breadcrumb from '@components/Ui/Breadcrumb/index.vue'
 import Hamburger from '@components/Ui/Hamburger/index.vue'
 import ThemePicker from '@components/Ui/ThemePicker'
 import { mapActions, mapGetters } from 'vuex'
-import Utils from '@utils/utils'
+import Utils from '@utils/index'
 
 export default {
   name: 'Header',

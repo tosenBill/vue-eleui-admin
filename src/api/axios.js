@@ -4,6 +4,7 @@
 import axios from 'axios'
 // import { API_HOST } from "../config";
 import _ from 'lodash'
+import Utils from '@utils/index'
 
 // 请求超时时间
 axios.defaults.timeout = 10000
@@ -21,7 +22,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
 	res => {
-		let _data = null
+    console.log('res-----------', res)
+    let _data = null
 		if (res.status === 200) {
 			_data = res.data
 			if (_.isPlainObject(_data) && _data.code) {
@@ -40,8 +42,14 @@ axios.interceptors.response.use(
 		return _data
 	},
 	err => {
+    console.log('---------err', err.response.status)
 		switch (err.response.status) {
 			case 400:
+        Utils.removeCookie('token')
+        window._Vue.$router.replace({
+          path: '/login'
+        })
+
 				break
 			case 401: {
 				break

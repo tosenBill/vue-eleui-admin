@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from '@router/index'
 import store from '@store/index'
 import filters from './filters/index'
+import utils from './utils/index'
 import api from '@api/index'
 import './registerServiceWorker'
 import ElementUI from 'element-ui'
@@ -11,6 +12,7 @@ import '@css/main.scss'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = api
+Vue.prototype.$Utils = utils
 Vue.use(ElementUI)
 
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))

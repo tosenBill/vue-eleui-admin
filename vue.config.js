@@ -1,7 +1,6 @@
 const Config = require('./build/index')
 const Utils = require('./build/utils')
 const _ENV = process.env.VUE_APP_ENV
-
 console.log(process.env.VUE_APP_ENV, 'process.env.VUE_APP_ENV')
 
 module.exports = {
@@ -23,7 +22,8 @@ module.exports = {
 			chunks: ['chunk-vendors', 'chunk-common', 'app']
 		}
 	},
-	lintOnSave: Config[_ENV]['isEsLint'], // 是否开启Eslint
+  lintOnSave: Config[_ENV]['isEsLint'], // 是否开启Eslint
+  // lintOnSave: false,
 	productionSourceMap: Config[_ENV]['isSorceMap'], // 是否开启sourceMap
 	devServer: {
 		host: '0.0.0.0',
@@ -36,6 +36,7 @@ module.exports = {
 			warnings: true,
 			errors: true // 为true的时候 将不能报错
     },
+    // dev环境跨域代理
     proxy: {
       '/api': {
         target: 'http://5g.meixuanlife.com/', //对应自己的接口
@@ -86,5 +87,15 @@ module.exports = {
 			}
 		},
 		plugins: []
-	}
+  },
+  // 更改网站favicon.ico
+  pwa: {
+    iconPaths: {
+      favicon32     : 'favicon.ico',
+      favicon16     : 'favicon.ico',
+      appleTouchIcon: 'favicon.ico',
+      maskIcon      : 'favicon.ico',
+      msTileImage   : 'favicon.ico'
+    }
+  }
 }

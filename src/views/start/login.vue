@@ -38,7 +38,7 @@
 <script>
 import { mapGetters } from 'vuex'
 // import * as types from '../store/type'
-import valid from '../../utils/valid'
+import valid from '@utils/valid'
 export default {
 	meataInfo: {
 		title: 'login meata'
@@ -83,17 +83,23 @@ export default {
 		},
 		handleLogin(formName) {
 			this.$refs[formName].validate((valid) => {
+        const params = {
+          cellPhone: 15801573461,
+          password: 'qqqqqq'
+        }
+
 				if (valid) {
-					this.myApi.getLogin({
-						name: 'sehnt'
-					})
-					this.$Utils.setCookie('_USER_COOKIE', this.loginForm.username, 1)
+					this.$http.loginIn(params).then(res => {
+            if (res.token) {
+              this.$Utils.setCookie('token', res.token, 1)
+              this.$router.go(-1)
+            }
+          })
 					// this.$store.commit(types.SET_USER_INFO, this.loginForm)
 
 					// const url = this.$route.query || '/'
 					// console.log(url, 'url')
 					// this.$router.replace('/')
-					this.$router.go(-1)
 				} else {
 					console.log('error submit!!')
 					return false
