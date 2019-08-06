@@ -46,6 +46,6 @@ export default {
      * @returns {Boolean} 返回布尔值
      */
     isPhoneNum(str) {
-        return /^[0]?\d{2,3}[- ]?\d{7,8}$|(?:^1[3456789]|^9[28])\d{9}$/.test(str)
+        return /^[1][3,4,5,7,8,9][0-9]{9}$/.test(str)
     }
 }

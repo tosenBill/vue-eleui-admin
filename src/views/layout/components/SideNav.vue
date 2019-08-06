@@ -34,27 +34,27 @@ export default {
             {
               urlLink: 'home',
               permissionName: '首页'
-            },
-             {
-              urlLink: 'about',
-              permissionName: '关于我'
             }
-          ]
-        },
-        {
-          groupName: '权限',
-          path: 'permissionome',
-          children: [
-            {
-              urlLink: 'permissionome',
-              permissionName: 'permission1'
-            },
-             {
-              urlLink: 'aboutme',
-              permissionName: '关于我2'
-            }
+            // {
+            //   urlLink: 'about',
+            //   permissionName: '关于我'
+            // }
           ]
         }
+        // {
+        //   groupName: '权限',
+        //   path: 'permissionome',
+        //   children: [
+        //     {
+        //       urlLink: 'permissionome',
+        //       permissionName: 'permission1'
+        //     },
+        //      {
+        //       urlLink: 'aboutme',
+        //       permissionName: '关于我2'
+        //     }
+        //   ]
+        // }
       ]
     }
   },

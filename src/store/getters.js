@@ -4,10 +4,7 @@
 
 export default {
     // 用户信息getters  返回用户信息
-    getToken: state => {
-        return state.users.token
-    },
-    sidebar: state => {
-      return state.sidebar
-    }
+    getToken: state => state.users.token,
+    sidebar: state =>  state.sidebar,
+    userInfo: (state) => state.userInfo
 }

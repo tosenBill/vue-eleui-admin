@@ -7,10 +7,12 @@
 export default {
     // 用户的登陆信息和token
     users: {
-        // isLogin: false,
-        // token:''
+      // isLogin: false,
+      // token:''
     },
+    userinfo: {},
     sidebar: {
       opened: true
-    }
+    },
+    tags: []
 }

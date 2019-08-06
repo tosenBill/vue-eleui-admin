@@ -4,26 +4,26 @@
       <div class="title-container">
         <h3 class="title">登录</h3>
       </div>
-      <el-form-item prop="username">
+      <el-form-item prop="cellPhone">
         <span class="svg-container">
-          <i class="el-icon-view"></i>
+          <!-- <i class="el-icon-view"></i> -->
         </span>
         <el-input
-          v-model="loginForm.username"
-          placeholder="username"
-          name="username"
+          v-model="loginForm.cellPhone"
+          placeholder="用户名"
+          name="cellPhone"
           type="text"
           auto-complete="on"
         />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <i class="el-icon-view"></i>
+          <!-- <i class="el-icon-view"></i> -->
         </span>
         <el-input
           :type="passwordType"
           v-model="loginForm.password"
-          placeholder="password"
+          placeholder="密码"
           name="password"
           auto-complete="on"
           @keyup.enter.native="handleLogin('loginForm')" />
@@ -45,14 +45,16 @@ export default {
 	},
 	data() {
 		const validateUsername = (urle, value, callback) => {
-			if (!valid.isvalidUsername(value)) {
+			if (!value) {
 				callback(new Error('请输入用户名哦~'))
-			} else {
-				callback()
+			} else if (!valid.isPhoneNum(value)) {
+        callback(new Error('请输入正确的用户名哦~'))
+      } else {
+        callback()
 			}
 		}
 		const validatePassword = (rule, value, callback) => {
-			if (value.length < 6) {
+			if (!value.length) {
 				callback(new Error('密码长度不够哟~'))
 			} else {
 				callback()
@@ -60,12 +62,12 @@ export default {
 		}
 		return {
 			loginForm: {
-				username: '',
+				cellPhone: '',
 				password: ''
 			},
 			passwordType: 'password',
 			loginRules: {
-				username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+				cellPhone: [{ required: true, trigger: 'blur', validator: validateUsername }],
 				password: [{ required: true, trigger: 'blur', validator: validatePassword }]
 			}
 		}
@@ -83,14 +85,11 @@ export default {
 		},
 		handleLogin(formName) {
 			this.$refs[formName].validate((valid) => {
-        const params = {
-          cellPhone: 15801573461,
-          password: 'qqqqqq'
-        }
-
 				if (valid) {
-					this.$http.loginIn(params).then(res => {
-            if (res.token) {
+					this.$http.loginIn(this.loginForm).then(res => {
+            console.log(res)
+            // if ()
+            if (res && res.token) {
               this.$Utils.setCookie('token', res.token, 1)
               this.$router.go(-1)
             }
@@ -136,7 +135,7 @@ export default {
     .login-container .el-input input{
       color: $cursor;
       &::first-line {
-        color: $light_gray;
+        // color: $light_gray;
       }
     }
   }

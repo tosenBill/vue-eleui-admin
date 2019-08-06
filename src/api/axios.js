@@ -22,20 +22,20 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
 	res => {
-    console.log('res-----------', res)
     let _data = null
 		if (res.status === 200) {
 			_data = res.data
 			if (_.isPlainObject(_data) && _data.code) {
 				switch (_data.code) {
-					case 1001:
-						// window._Vue.$store.dispatch("loginOut");
+					case '00001-00000':
+            window._Vue.$message.error(_data.errMsg)
+            window._Vue.$router.replace({ path: '/' })
+            _data = null
 						break
-					case 1002: {
-						window._Vue.$message.error(_data.message)
+					case '00001-00001':
+						window._Vue.$message.error(_data.errMsg)
 						_data = null
 						break
-					}
 				}
 			}
 		}
