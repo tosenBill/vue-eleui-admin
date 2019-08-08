@@ -13,7 +13,7 @@ export default new Router({
       path: '/',
       component: Layout,
       hidden: true,
-      redirect: '/home',
+      redirect: '/orderList',
       children: [
         {
           name: 'home',

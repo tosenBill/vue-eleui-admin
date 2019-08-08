@@ -2,14 +2,22 @@
   <el-aside :class="{'not-open':!sidebar.opened, 'is-open': sidebar.opened}"  width="200px" id="sideMenu">
     <el-menu :default-openeds="subMenuActive" :default-active="childMenuActive" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="!sidebar.opened" background-color="#304156" text-color="#bfcbd9" active-text-color="#409EFF">
       <template v-for="(item) in datas">
-        <el-submenu class="nav-item" :index="item.path" :key="item.path">
+
+        <router-link :to="{name: item.children[0].urlLink}" :key="item.path" v-if="item.children.length == 1">
+          <el-menu-item :index="item.path">
+            <i :class="item.icon"></i>
+            <span slot="title">{{item.children[0].name}}</span>
+          </el-menu-item>
+        </router-link>
+
+        <el-submenu v-else class="nav-item" :index="item.path" :key="item.path">
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <i :class="item.icon"></i>
             <span class="nav-title">{{item.groupName}}</span>
           </template>
           <el-menu-item-group v-for="(child, index) in item.children" :key="index">
             <router-link :to="{name: child.urlLink}">
-              <el-menu-item :index="child.urlLink">{{child.permissionName}}</el-menu-item>
+              <el-menu-item :index="child.urlLink">{{child.name}}</el-menu-item>
             </router-link>
           </el-menu-item-group>
         </el-submenu>
@@ -30,24 +38,26 @@ export default {
         {
           groupName: '订单中心',
           path: 'orderList',
+          icon: 'el-icon-document',
           children: [
             {
               urlLink: 'orderList',
-              permissionName: '订单列表'
+              name: '订单列表'
             },
             {
               urlLink: 'permissionome',
-              permissionName: '权限'
+              name: '权限'
             }
           ]
         },
         {
           groupName: '团队信息',
           path: 'groupInfo',
+          icon: 'el-icon-menu',
           children: [
             {
               urlLink: 'groupInfo',
-              permissionName: '团队信息'
+              name: '团队信息'
             }
           ]
         }
@@ -57,11 +67,11 @@ export default {
         //   children: [
         //     {
         //       urlLink: 'permissionome',
-        //       permissionName: 'permission1'
+        //       name: 'permission1'
         //     },
         //      {
         //       urlLink: 'aboutme',
-        //       permissionName: '关于我2'
+        //       name: '关于我2'
         //     }
         //   ]
         // }
@@ -89,11 +99,11 @@ export default {
   watch: {
     $route: {
       handler (val) {
-        console.log(this.$route)
-        const { matched } = val
+        console.log(val)
+        const { matched, name } = val
         console.log(matched, 'matched')
         // this.subMenuActive = [meta.title || '']
-        // this.childMenuActive = name || 'home'
+        this.childMenuActive = name || 'orderList'
       },
       immediate: true
     }
