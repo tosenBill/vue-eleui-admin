@@ -7,9 +7,9 @@
       style='width: 100%'
       :max-height='maxHeight'
       v-loading='loading'
-      element-loading-text='拼命加载中'
+      element-loading-text='玩命加载中~'
       element-loading-spinner='el-icon-loading'
-      element-loading-background='rgba(0, 0, 0, 0.8)'
+      element-loading-background='rgba(0, 0, 0, 0.7)'
       @sort-change='sortChange'
       id='outTable'
     >
@@ -57,6 +57,9 @@ export default {
     sortChange(column) {
       this.$emit('sort-change', column)
     }
+  },
+  mounted () {
+    console.log(this.loading)
   },
   created() {},
   watch: {

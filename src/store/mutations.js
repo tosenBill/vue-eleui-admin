@@ -4,7 +4,7 @@
  * @Date: 2018-08-27 13:49:09
  * @Last Modified time: 2018-08-27 13:49:09
  */
-import types from './type'
+import MutationsType from './type'
 
 export default {
 
@@ -12,10 +12,10 @@ export default {
   // [types.SET_TOKEN](state, data) {
   //    return state.users.isLogin = data;
   // },
-  [types.SET_SIDERBAR_TOGGLE](state) {
+  [MutationsType.SET_SIDERBAR_TOGGLE](state) {
     state.sidebar.opened = !state.sidebar.opened
   },
-  [types.SET_USER_INFO] (state, data) {
+  [MutationsType.SET_USER_INFO] (state, data) {
     state.userInfo = data
   }
 }

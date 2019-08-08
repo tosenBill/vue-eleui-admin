@@ -28,17 +28,27 @@ export default {
       isCollapse: true,
       datas: [
         {
-          groupName: '首页',
-          path: 'home',
+          groupName: '订单中心',
+          path: 'orderList',
           children: [
             {
-              urlLink: 'home',
-              permissionName: '首页'
+              urlLink: 'orderList',
+              permissionName: '订单列表'
+            },
+            {
+              urlLink: 'permissionome',
+              permissionName: '权限'
             }
-            // {
-            //   urlLink: 'about',
-            //   permissionName: '关于我'
-            // }
+          ]
+        },
+        {
+          groupName: '团队信息',
+          path: 'groupInfo',
+          children: [
+            {
+              urlLink: 'groupInfo',
+              permissionName: '团队信息'
+            }
           ]
         }
         // {
@@ -101,7 +111,7 @@ export default {
 }
 #sideMenu {
   background: $sideMenuColor;
-  transition: width .8s;
+  transition: width .4s;
   .el-menu-vertical-demo {
     border-right: none;
   }

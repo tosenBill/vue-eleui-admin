@@ -22,15 +22,27 @@ export default new Router({
           component: () => import('../views/home/index.vue')
         },
         {
-          name: 'about',
-          path: 'about',
-          meta: { title: '关于我', keepAlive: true },
-          component: () => import('../views/about/index.vue')
+          name: 'groupInfo',
+          path: 'groupInfo',
+          meta: { title: '团队信息', keepAlive: true },
+          component: () => import('../views/group/groupList.vue')
+        },
+        {
+          name: 'orderList',
+          path: 'orderList',
+          meta: { title: '订单中心', keepAlive: true },
+          component: () => import('../views/order/orderList.vue')
         },
         {
           name: 'permissionome',
           path: 'permissionome',
           meta: { title: '权限1', keepAlive: true },
+          component: () => import('../views/about/index.vue')
+        },
+        {
+          name: 'about',
+          path: 'about',
+          meta: { title: '关于我', keepAlive: true },
           component: () => import('../views/about/index.vue')
         }
       ]

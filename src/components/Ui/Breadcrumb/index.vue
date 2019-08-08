@@ -55,6 +55,7 @@ export default {
         matched = [{ path: '/home', meta: { title: '首页' } }, ...matched]
       }
       this.levelList = matched
+      console.log(this.levelList)
     }
   }
 }

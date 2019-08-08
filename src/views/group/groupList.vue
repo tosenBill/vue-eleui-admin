@@ -1,7 +1,47 @@
 <template>
-  <div id="home" class="home">
+  <div id="grouplist" class="grouplist">
+    <header>团队信息</header>
     <section>
-      首页
+      <my-tables
+        :dataList='dataList'
+        :loading='flags.loading'
+        :size="query.size"
+        :page="query.pageNom"
+        :total="totalElements"
+        @pageChange="pageChange_handler"
+        >
+        <el-table-column
+          label="姓名"
+          align="center"
+          width="100">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <p>姓名: {{ scope.row.name }}</p>
+              <p>手机: {{ scope.row.cellPhone }}</p>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="cellPhone" label="手机号" min-width="85"></el-table-column>
+        <el-table-column align="center" prop="isActivate" label="是否激活" min-width="85">
+          <template slot-scope="scope">
+            <span>{{ scope.row.isActivate ? '是' : '否'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </my-tables>
     </section>
   </div>
 </template>
@@ -13,7 +53,7 @@ import MyTables from '@components/Common/Mytable'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'home',
+  name: 'grouplist',
   data () {
     return {
       query: {
@@ -34,7 +74,15 @@ export default {
     MyTables
   },
   activated () {
-    console.log(this.user)
+    console.log('activated group')
+  },
+  deactivated () {
+    console.log('deactivated group')
+    this.flags = {
+      loading: true
+    }
+    this.dataList = []
+    this.totalElements = 0
   },
   created() {
 
@@ -92,7 +140,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-  .home{
+  .grouplist{
     section{
       padding: 10px 20px
       min-width: 600px

@@ -5,7 +5,7 @@
       <div class="content">
         <Header></Header>
 
-        <tags-view/>
+        <!-- <tags-view/> -->
 
         <transition name="fade-transform" mode="out-in">
           <!-- <div class="main-view"> -->
@@ -23,6 +23,7 @@
 import { mapState } from 'vuex'
 import Header from './components/Header'
 import TagsView from './components/TagsView'
+// import TagsView from './components/TagsView/index'
 import SideNav from './components/SideNav'
 export default {
   name: 'Layout',

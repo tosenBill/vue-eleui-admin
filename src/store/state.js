@@ -14,5 +14,8 @@ export default {
     sidebar: {
       opened: true
     },
-    tags: []
+    // tagsview
+    visitedViews: [],
+    cachedViews: []
+    // tags: []
 }
