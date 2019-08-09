@@ -2,7 +2,11 @@
   <div id="grouplist" class="grouplist">
     <header>团队信息</header>
     <section>
+      <div class="export-excel">
+        <el-button type="primary" @click="export_excel_handle">导出Excel</el-button>
+      </div>
       <my-tables
+        id="out-table"
         :dataList='dataList'
         :loading='flags.loading'
         :size="query.size"
@@ -13,18 +17,24 @@
         <el-table-column
           label="姓名"
           align="center"
-          width="100">
+          >
           <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
+            <p>姓名: {{ scope.row.name }}</p>
+            <p>手机: {{ scope.row.cellPhone }}</p>
+            <!-- <el-popover trigger="hover" placement="top">
               <p>姓名: {{ scope.row.name }}</p>
               <p>手机: {{ scope.row.cellPhone }}</p>
               <div slot="reference" class="name-wrapper">
                 <el-tag size="medium">{{ scope.row.name }}</el-tag>
               </div>
-            </el-popover>
+            </!-->
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="cellPhone" label="手机号" min-width="85"></el-table-column>
+        <el-table-column align="center" prop="cellPhone" label="手机号" min-width="85">
+          <template slot-scope="scope">
+            <p>{{ scope.row.cellPhone }}</p>
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="isActivate" label="是否激活" min-width="85">
           <template slot-scope="scope">
             <span>{{ scope.row.isActivate ? '是' : '否'}}</span>
@@ -48,9 +58,13 @@
 
 <script>
 
-import types from '@store/type'
-import MyTables from '@components/Common/Mytable'
 import { mapGetters } from 'vuex'
+import types from '@store/type'
+
+import MyTables from '@components/Common/Mytable'
+
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 
 export default {
   name: 'grouplist',
@@ -101,6 +115,30 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    export_excel_handle () {
+      /* 从表生成工作簿对象 */
+      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      /* 获取二进制字符串作为输出 */
+      var wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+      })
+      try {
+          FileSaver.saveAs(
+          // Blob 对象表示一个不可变、原始数据的类文件对象。
+          // Blob 表示的不一定是JavaScript原生格式的数据。
+          // File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+          // 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+          new Blob([wbout], { type: 'application/octet-stream' }),
+          // 设置导出文件名称
+          'sheetjs.xlsx'
+          )
+      } catch (e) {
+          if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout
+    },
     async getUserInfo () {
       const userInfo = await this.$http.getUserInfo().catch()
       if (userInfo && userInfo.data) {
