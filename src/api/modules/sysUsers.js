@@ -20,5 +20,9 @@ export default {
     // 分页获取订单信息
     orderList (data) {
       return this.post(this.API_HOST + '/admin/card/team/page', data)
+    },
+    // 修改订单状态
+    changeStatus (data) {
+      return this.post(this.API_HOST + '/admin/card/update/status', data)
     }
 }

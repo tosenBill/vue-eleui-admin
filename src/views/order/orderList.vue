@@ -7,7 +7,6 @@
           class="cellPhone-input"
           placeholder="订单查询"
           v-model.trim="query.cellPhone"
-          @keyup.enter.native="search_enter_handle"
           clearable>
         </el-input>
 
@@ -16,7 +15,6 @@
           class="parentPhone-input"
           placeholder="关联订单查询"
           v-model.trim="query.parentPhone"
-          @keyup.enter.native="search_enter_handle"
           clearable>
         </el-input>
 
@@ -62,6 +60,7 @@
               <span>礼包发放地址: </span><span>{{scope.row.address}}</span>
             </div>
             <!-- statusVo -->
+            <div v-if="scope.row.statusVo">
             <div style="text-align:left;">
               <span>资料审核: </span><span>{{scope.row.statusVo.auditStatus  + '&nbsp;&nbsp;'}}</span>
               <span>充值缴费: </span><span>{{scope.row.statusVo.isPay}}</span>
@@ -90,6 +89,7 @@
             </div>
             <div style="text-align:left;">
               <span style="color:#e4393c;">{{scope.row.statusVo.errorMsg}}</span>
+            </div>
             </div>
           </template>
           <!-- <template slot-scope="scope">
@@ -165,19 +165,41 @@
 
         </el-table-column>
 
-        <!-- <el-table-column label="操作">
+        <el-table-column label="操作"  width="110" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button
+              type="primary"
+              @click="handleEdit(scope.row)">状态审核</el-button>
+            <!-- <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </my-tables>
     </section>
+    <el-dialog
+      title="审核状态"
+      :visible.sync="dialogVisible"
+      width="30%"
+      @close="dialog_close_handle"
+      >
+      <div>
+        <el-input
+          style="width:100%"
+          class="cellPhone-input"
+          placeholder="请输入开户手机号"
+          v-model.trim="cellPhone"
+          clearable>
+        </el-input>
+        <p v-if="dialogMsg" style="color:#e4393c;margin-top:5px;">{{dialogMsg}}</p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <!-- <el-button @click="dialogVisible = false">取 消</el-button> -->
+        <el-button type="primary" @click="change_status_handle">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -191,6 +213,9 @@ export default {
   name: 'orderlist',
   data () {
     return {
+      dialogVisible: false,
+      cellPhone: '',
+      dialogMsg: '',
       query: {
         pageNom: 1,
         size: 20,
@@ -319,6 +344,58 @@ export default {
       // }
 
       this.flags.loading = false
+    },
+    // 修改状态
+    async changeStatus (params) {
+      const changeStatus = await this.$http.changeStatus(params).catch(
+        err => console.log('catch-err', err)
+      )
+      console.log(changeStatus)
+      if (changeStatus) {
+        console.log(changeStatus)
+        return Promise.resolve(changeStatus)
+      } else {
+        return Promise.reject(changeStatus)
+      }
+    },
+    // dialog 关闭回调
+    dialog_close_handle () {
+      this.cellPhone = ''
+    },
+    // dialog 确定按钮
+    change_status_handle () {
+      const regPhone = /^[1][3,4,5,7,8,9][0-9]{9}$/
+      if (!this.cellPhone) {
+        this.dialogMsg = '请输入手机号'
+        return
+      } else if (!regPhone.test(this.cellPhone)) {
+        this.dialogMsg = '请输入正确的手机号'
+        return
+      }
+      // TODO:// 掉接口
+      // const changeStatus = this.changeStatus({ cellPhone: this.cellPhone })
+
+      this.changeStatus({ cellPhone: this.cellPhone }).then(res => {
+        // console.log(res)
+        if (res) {
+          this.dialogVisible = false
+          this.cellPhone = ''
+
+          setTimeout(() => {
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+          }, 0)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    handleEdit (row) {
+      this.dialogVisible = true
+      this.cellPhone = row.cellPhone || ''
+      console.log(row)
     },
     search_enter_handle (e) { // 回车按钮
       const keyCode = window.event ? e.keyCode : e.which
