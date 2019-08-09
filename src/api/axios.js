@@ -22,6 +22,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
 	res => {
+    // console.log('--------res', res)
     let _data = null
 		if (res.status === 200) {
 			_data = res.data
@@ -42,7 +43,7 @@ axios.interceptors.response.use(
 		return _data
 	},
 	err => {
-    console.log('---------err', err.response.status)
+    // console.log('---------err', err.response.status)
 		switch (err.response.status) {
 			case 400:
         Utils.removeCookie('token')
@@ -54,9 +55,9 @@ axios.interceptors.response.use(
 			case 401: {
 				break
 			}
-			case 405:
-			case 500:
-			default:
+        case 500:
+          default:
+              window._Vue.$message.error('服务器异常')
 				break
 		}
 		return err.response

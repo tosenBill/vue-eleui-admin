@@ -2,8 +2,11 @@
  * 供货商接口
  */
 export default {
+    /**
+     * 用户注册
+     * */
     loginIn(params) {
-      return this.post(this.API_HOST + '/login/pass', params)
+      return this.post(this.API_HOST + '/admin/login/pass', params)
     },
     /**
      * @description 获取用户详情
@@ -14,8 +17,8 @@ export default {
     getUserInfo () {
       return this.post(this.API_HOST + '/user/info')
     },
-    // 办卡信息
-    handleCardList (data) {
-      return this.post(this.API_HOST + '/card/team/page', data)
+    // 分页获取订单信息
+    orderList (data) {
+      return this.post(this.API_HOST + '/admin/card/team/page', data)
     }
 }

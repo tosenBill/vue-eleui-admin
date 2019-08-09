@@ -43,11 +43,11 @@ export default {
             {
               urlLink: 'orderList',
               name: '订单列表'
-            },
-            {
-              urlLink: 'permissionome',
-              name: '权限'
             }
+            // {
+            //   urlLink: 'permissionome',
+            //   name: '权限'
+            // }
           ]
         },
         {
@@ -99,7 +99,7 @@ export default {
   watch: {
     $route: {
       handler (val) {
-        console.log(val)
+        // console.log(val)
         const { matched, name } = val
         console.log(matched, 'matched')
         // this.subMenuActive = [meta.title || '']

@@ -39,7 +39,8 @@ module.exports = {
     // dev环境跨域代理
     proxy: {
       '/api': {
-        target: 'http://5g.meixuanlife.com/', //对应自己的接口
+        target: 'http://192.168.1.101:8080',
+        // target: 'http://5g.meixuanlife.com/', //对应自己的接口
         changeOrigin: true,
         ws: true,
         pathRewrite: {

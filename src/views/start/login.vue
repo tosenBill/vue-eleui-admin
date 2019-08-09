@@ -87,7 +87,7 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.$http.loginIn(this.loginForm).then(res => {
-            console.log(res)
+            console.log('loginIn-res', res)
             // if ()
             if (res && res.token) {
               this.$Utils.setCookie('token', res.token, 1)
