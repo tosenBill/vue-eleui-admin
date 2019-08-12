@@ -370,8 +370,6 @@ export default {
         this.dialogMsg = '请输入正确的手机号'
         return
       }
-      // TODO:// 掉接口
-      // const changeStatus = this.changeStatus({ cellPhone: this.cellPhone })
 
       this.changeStatus({ cellPhone: this.cellPhone }).then(res => {
         // console.log(res)

@@ -37,35 +37,35 @@
  * @Description: table 二次封装
  */
 export default {
-  props: ["loading", "dataList", "size", "total", "page"],
+  props: ['loading', 'dataList', 'size', 'total', 'page'],
   components: {},
   data() {
     return {
-      maxHeight: window.innerHeight > 700 ? "700" : "500"
+      maxHeight: window.innerHeight > 700 ? '700' : '500'
       // maxHeight: window.innerHeight > 700 ? "500" : "300"
-    };
+    }
   },
   methods: {
     /**
      * @description 分页 回调事件
      */
     pageChange_handler(page) {
-      this.$emit("pageChange", page);
+      this.$emit('pageChange', page)
     },
     /**
      * @description 排序 回调事件
      */
     sortChange(column) {
-      this.$emit("sort-change", column);
+      this.$emit('sort-change', column)
     }
   },
   created() {},
   watch: {
     page() {
-      console.log(this.page, "page------");
+      console.log(this.page, 'page------')
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 #tableList {

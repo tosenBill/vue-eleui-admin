@@ -1,8 +1,7 @@
 <template>
-  <el-aside :class="{'not-open':!sidebar.opened, 'is-open': sidebar.opened}"  width="200px" id="sideMenu">
+  <el-aside :class="{'not-open':!sidebar.opened, 'is-open': sidebar.opened}" width="200px" id="sideMenu">
     <el-menu :default-openeds="subMenuActive" :default-active="childMenuActive" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="!sidebar.opened" background-color="#304156" text-color="#bfcbd9" active-text-color="#409EFF">
       <template v-for="(item) in datas">
-
         <router-link :to="{name: item.children[0].urlLink}" :key="item.path" v-if="item.children.length == 1">
           <el-menu-item :index="item.path">
             <i :class="item.icon"></i>
@@ -60,6 +59,17 @@ export default {
               name: '团队信息'
             }
           ]
+        },
+        {
+          groupName: '团队树形',
+          path: 'groupTree',
+          icon: 'el-icon-menu',
+          children: [
+            {
+              urlLink: 'groupTree',
+              name: '团队树形'
+            }
+          ]
         }
         // {
         //   groupName: '权限',
@@ -78,8 +88,7 @@ export default {
       ]
     }
   },
-  components: {
-  },
+  components: {},
   computed: {
     ...mapGetters({
       sidebar: 'sidebar'
@@ -89,16 +98,16 @@ export default {
     console.log(this.sidebar.opened)
   },
   methods: {
-    handleOpen() { },
-    handleClose() { },
-    close() { },
-    clickToggle () {
+    handleOpen() {},
+    handleClose() {},
+    close() {},
+    clickToggle() {
       this.opened = !this.opened
     }
   },
   watch: {
     $route: {
-      handler (val) {
+      handler(val) {
         // console.log(val)
         const { matched, name } = val
         console.log(matched, 'matched')
@@ -112,16 +121,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.not-open{
+.not-open {
   width: 65px !important;
   overflow-x: hidden;
 }
-.is-open{
-   width: auto;
+.is-open {
+  width: auto;
 }
 #sideMenu {
   background: $sideMenuColor;
-  transition: width .4s;
+  transition: width 0.4s;
   .el-menu-vertical-demo {
     border-right: none;
   }
@@ -136,19 +145,19 @@ export default {
     }
   }
   .active {
-          background-color: $tabColor;
-          color: #fff;
-          border-color: $tabColor;
-          &::before {
-            content: "";
-            background: #fff;
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            position: relative;
-            margin-right: 2px;
-          }
-        }
+    background-color: $tabColor;
+    color: #fff;
+    border-color: $tabColor;
+    &::before {
+      content: "";
+      background: #fff;
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      position: relative;
+      margin-right: 2px;
+    }
+  }
 }
 </style>

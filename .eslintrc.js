@@ -105,7 +105,7 @@ module.exports = {
     'no-unreachable': 2, //return，throw，continue，和break后面不允许有代码
     'no-unsafe-finally': 2, //禁止finally块中的控制流语句
     'no-unused-vars': [2, { vars: 'all', args: 'none' }], //禁止未使用的变量
-    'no-useless-call': 2, //禁止不必要.call()和.apply()。
+    // 'no-useless-call': 2, //禁止不必要.call()和.apply()。
     'no-useless-computed-key': 2, //禁止在对象上使用不必要的计算属性键
     'no-useless-constructor': 2, //禁止不必要的构造函数
     'no-useless-escape': 2, //禁止不必要的转义用法

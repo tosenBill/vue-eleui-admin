@@ -25,8 +25,8 @@ export default {
     width: String,
     labelCol: {
       type: Number,
-      default:7
-    },
+      default: 7
+    }
   },
   components: {
   },
@@ -34,11 +34,11 @@ export default {
         return {
         }
       },
-  methods:{
+  methods: {
   },
-  created(){
+  created() {
   },
-  watch:{
+  watch: {
   }
 }
 </script>

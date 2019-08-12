@@ -27,12 +27,12 @@ export default {
    */
   data() {
     return {
-      dialogImageUrl: "",
+      dialogImageUrl: '',
       dialogVisible: false,
       dataList: [],
-      imgHost: "http://dj001.oss-cn-beijing.aliyuncs.com/",
-      firstFlag: false //是否将默认值赋值给 dataList
-    };
+      imgHost: 'http://dj001.oss-cn-beijing.aliyuncs.com/',
+      firstFlag: false // 是否将默认值赋值给 dataList
+    }
   },
   props: {
     maxLength: Number,
@@ -40,7 +40,7 @@ export default {
     multipled: {
       type: Boolean,
       default() {
-        return true;
+        return true
       }
     }
   },
@@ -49,48 +49,48 @@ export default {
     beforeUpload() {
       if (this.dataList.length >= this.maxLength) {
         this.$message({
-          message: "最多上传" + this.maxLength + "张图片",
-          type: "warning"
-        });
-        return false;
+          message: '最多上传' + this.maxLength + '张图片',
+          type: 'warning'
+        })
+        return false
       }
     },
     successHandler(res, file) {
-      console.log(file);
+      console.log(file)
       if (res && res.msg) {
         if (this.dataList.length >= this.maxLength) {
           this.$message({
-            message: "最多上传" + this.maxLength + "张图片",
-            type: "warning"
-          });
-          return false;
+            message: '最多上传' + this.maxLength + '张图片',
+            type: 'warning'
+          })
+          return false
         } else {
-          let { result } = res;
-          console.log(result, "res", res);
+          const { result } = res
+          console.log(result, 'res', res)
           if (result) {
-            let url = result.url;
-            this.dataList.push(url);
-            this.$emit("getUpload", this.dataList);
+            const url = result.url
+            this.dataList.push(url)
+            this.$emit('getUpload', this.dataList)
           } else {
             this.$message({
-              message: res.msg || "",
-              type: "warning"
-            });
+              message: res.msg || '',
+              type: 'warning'
+            })
           }
         }
       }
-      console.log(res, "response");
+      console.log(res, 'response')
     },
     remove_clickHandler(index) {
-      this.dataList.splice(index, 1);
-      this.$emit("getUpload", this.dataList);
+      this.dataList.splice(index, 1)
+      this.$emit('getUpload', this.dataList)
     },
     error_handler(err) {
       this.$message({
-        message: "上传失败，请稍后重试",
-        type: "error"
-      });
-      console.log(err);
+        message: '上传失败，请稍后重试',
+        type: 'error'
+      })
+      console.log(err)
     }
   },
   created() {},
@@ -99,12 +99,12 @@ export default {
   watch: {
     value: {
       handler(val) {
-        console.log(val === undefined,val, "--------");
-        if (val === null || val === undefined) return;
+        console.log(val === undefined, val, '--------')
+        if (val === null || val === undefined) return
         if (Array.isArray(val)) {
-          this.dataList = [...val];
+          this.dataList = [...val]
         } else {
-          this.dataList = val ? [val] : [];
+          this.dataList = val ? [val] : []
         }
         // this.firstFlag = true;
       },
@@ -114,7 +114,7 @@ export default {
     //   this.$emit("getUpload", val);
     // }
   }
-};
+}
 </script>
 <style  lang="scss">
 .UploadImg {
