@@ -350,9 +350,7 @@ export default {
       const changeStatus = await this.$http.changeStatus(params).catch(
         err => console.log('catch-err', err)
       )
-      console.log(changeStatus)
       if (changeStatus) {
-        console.log(changeStatus)
         return Promise.resolve(changeStatus)
       } else {
         return Promise.reject(changeStatus)
