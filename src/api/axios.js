@@ -40,7 +40,11 @@ axios.interceptors.response.use(
           case '00000-00002':
 						window._Vue.$message.error(_data.errMsg)
 						_data = null
-						break
+            break
+          case '00001-00002':
+            window._Vue.$message.error(_data.errMsg)
+            _data = null
+            break
 				}
 			}
 		}
@@ -51,9 +55,9 @@ axios.interceptors.response.use(
 		switch (err.response.status) {
 			case 400:
         Utils.removeCookie('token')
-        window._Vue.$router.replace({
-          path: '/login'
-        })
+        // window._Vue.$router.replace({
+        //   path: '/login'
+        // })
 
 				break
 			case 401: {

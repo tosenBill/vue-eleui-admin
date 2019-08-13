@@ -70,6 +70,17 @@ export default {
               name: '团队树形'
             }
           ]
+        },
+        {
+          groupName: 'myTree',
+          path: 'myTree',
+          icon: 'el-icon-menu',
+          children: [
+            {
+              urlLink: 'myTree',
+              name: 'myTree'
+            }
+          ]
         }
         // {
         //   groupName: '权限',

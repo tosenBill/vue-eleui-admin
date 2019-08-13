@@ -24,5 +24,17 @@ export default {
     // 修改订单状态
     changeStatus (data) {
       return this.post(this.API_HOST + '/admin/card/update/status', data)
+    },
+    // 团队所有A级  pageNom，size
+    getGroupFirstLevel (data) {
+      return this.post(this.API_HOST + '/admin/user/team', data)
+    },
+    // A级所有关系树 userId
+    // allTreeOfFirstLevel (data) {
+    //   return this.post(this.API_HOST + '/admin/user/team/info', data)
+    // },
+    // 通过手机号，查找关系树 cellPhone
+    getTreeByCellphone (data) {
+      return this.post(this.API_HOST + '/admin/user/info/get', data)
     }
 }

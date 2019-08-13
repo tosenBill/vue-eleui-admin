@@ -267,8 +267,20 @@
         this.checkBoxCall(checkedBoxArr, tree.checked)
       }
     },
+    activated () {
+      // console.log('tree-core activated invoked')
+      // this.coreInit()
+    },
+    updated () {
+      // console.log('tree-core updated invoked')
+      // this.coreInit()
+    },
     created() {
       this.coreInit()
+      // console.log('tree-core created invoked')
+    },
+    mounted () {
+      // console.log('tree-core mounted invoked')
     },
     computed: {
       vif() {

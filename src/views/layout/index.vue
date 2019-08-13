@@ -9,7 +9,9 @@
 
         <transition name="fade-transform" mode="out-in">
           <!-- <div class="main-view"> -->
-            <keep-alive :include="tags.cacheViews">
+
+            <!-- <keep-alive :include="tags.cacheViews"> -->
+            <keep-alive>
               <router-view :key="this.$route.fullPath"/>
             </keep-alive>
           <!-- </div> -->

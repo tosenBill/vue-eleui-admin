@@ -33,7 +33,6 @@ export default Object.assign(
       })
     },
     post (url, ...params) {
-      console.log(this.getHeaders())
       return new Promise((resolve, reject) => {
         axios.post(url, Qs.stringify(...params), {
           headers: { 'token': this.getHeaders().token }

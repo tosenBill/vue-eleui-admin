@@ -97,8 +97,8 @@
         const initTree = (tree, parent) => {
           for (let index = 0; index < tree.length; index++) {
             const m = tree[index]
-            if (!m.hasOwnProperty('id')) {
-              m.id = m.hasOwnProperty('id') ? m.id : null
+            if (!m.hasOwnProperty('cellPhone')) {
+              m.cellPhone = m.hasOwnProperty('cellPhone') ? m.cellPhone : null
             }
             if (!m.hasOwnProperty('open')) {
               m.open = m.hasOwnProperty('open') ? m.open : false
@@ -160,16 +160,16 @@
       },
       checkBoxCall(arr, isAdd) {
         if (isAdd) {
- arr.forEach(a => {
+          arr.forEach(a => {
             this.checkedBoxCallArr.push(a)
           })
-} else {
+          } else {
           arr.forEach(a => {
             if (this.checkBoxCall.length === 0) { return }
-            const key = (a.id ? a.id : null) + a.index + a.name
+            const key = (a.cellPhone ? a.cellPhone : null) + a.index + a.name
 
             this.checkedBoxCallArr.forEach((ss, index) => {
-              if (((ss.id ? ss.id : null) + ss.index + ss.name) === key) {
+              if (((ss.cellPhone ? ss.cellPhone : null) + ss.index + ss.name) === key) {
                 this.checkedBoxCallArr.splice(index, 1)
               }
             })
@@ -177,6 +177,11 @@
         }
         this.$emit('checkBoxCall', this.checkedBoxCallArr)
       }
+    },
+    activated () {
+      console.log('tree activated invoked')
+      this.init()
+      this.$emit('checkBoxCall', this.checkedBoxCallArr)
     },
     created() {
       this.init()

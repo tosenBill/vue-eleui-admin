@@ -40,6 +40,12 @@ export default new Router({
           component: () => import('../views/group/groupTree.vue')
         },
         {
+          name: 'myTree',
+          path: 'myTree',
+          meta: { title: '团队树', keepAlive: true },
+          component: () => import('../views/group/myTree.vue')
+        },
+        {
           name: 'permissionome',
           path: 'permissionome',
           meta: { title: '权限1', keepAlive: true },

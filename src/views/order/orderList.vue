@@ -246,7 +246,6 @@ export default {
     MyTables
   },
   activated () {
-    console.log(this.user)
   },
   deactivated () {
     console.log('deactivated order')
