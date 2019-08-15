@@ -71,7 +71,9 @@ export default {
       console.log(this.sidebar)
     },
     logout () {
-      console.log('logout')
+      // console.log('logout')
+      this.$Utils.removeCookie('token')
+      this.$router.push({ path: '/login' })
     }
   },
   created() {

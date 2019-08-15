@@ -6,41 +6,70 @@
           class="cellPhone-input"
           placeholder="手机号查询"
           v-model.trim="cellPhone"
+          @input="inputChange"
           clearable>
         </el-input>
         <el-button class="search-btn" type="primary" icon="el-icon-search" size="medium" @click="search_handle">搜索</el-button>
     </header>
-    <section>
-      <div class="search-tree" v-if="showSearchTree">
-        <el-tree
-          empty-text=""
-          :props="defaultProps"
-          :data="searchTree"
-          ref="tree"
-          default-expand-all
-          node-key="cellPhone"
-          @node-click="handleNodeClick"
-          >
-        </el-tree>
-      </div>
-      <div v-show="!showSearchTree">
-        <div v-if="showTree">
-          <div v-for="(item, index) in treeList" :key="index">
-            <div class="item-name" >
-              <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
-              <span>{{item.name}}</span>
+    <section :style="{ height: getScreenHeight +'px'}">
+      <div class="tree-info">
+        <div class="search-tree" v-if="showSearchTree">
+          <el-tree
+            empty-text=""
+            :props="defaultProps"
+            :data="searchTree"
+            ref="tree"
+            default-expand-all
+            node-key="cellPhone"
+            @node-click="handleNodeClick"
+            >
+          </el-tree>
+        </div>
+        <div v-show="!showSearchTree">
+          <div v-if="showTree">
+            <div v-for="(item, index) in treeList" :key="index">
+              <div class="item-name" >
+                <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
+                <span>{{item.name}}</span>
+              </div>
+              <div v-if="item.append">
+                <el-tree
+                  empty-text=""
+                  :props="defaultProps"
+                  :data="treeList[index].child"
+                  :expand-on-click-node="false"
+                  ref="tree"
+                  default-expand-all
+                  node-key="cellPhone"
+                  @node-click="handleNodeClick"
+                  >
+                </el-tree>
+              </div>
             </div>
-            <div v-if="item.append">
-              <el-tree
-                empty-text=""
-                :props="defaultProps"
-                :data="treeList[index].child"
-                ref="tree"
-                default-expand-all
-                node-key="cellPhone"
-                @node-click="handleNodeClick"
-                >
-              </el-tree>
+            <div class="loadmore-btn" @click="loadMore">加载更多</div>
+          </div>
+        </div>
+      </div>
+      <div class="node-info" v-if="JSON.stringify(currendNOde) != '{}'">
+        <div class="current-box">
+          <div class="row">
+            <div class="item">
+              <span class="label">姓名：</span>
+              <span class="detail">{{currendNOde.name}}</span>
+            </div>
+            <div class="item">
+              <span class="label">权益卡号：</span>
+              <span class="detail">{{currendNOde.cellPhone || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">联系电话：</span>
+              <span class="detail">{{currendNOde.contactNumber || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">身份：</span>
+              <span class="detail">{{currendNOde.userType || '暂无'}}</span>
             </div>
           </div>
         </div>
@@ -58,19 +87,16 @@ export default {
   name: 'mytree',
   data () {
     return {
+      getScreenHeight: 600 + 'px',
       cellPhone: '',
-      currentId: null,
       treeList: [],
       searchTree: [],
       showSearchTree: false,
       showTree: false,
-      meIndex: 0,
-      meTree: [],
-      outerIndex: null,
-      innerId: null,
+      currendNOde: {},
       query: {
         pageNom: 1,
-        size: 20
+        size: 15
       },
       defaultProps: {
         children: 'children',
@@ -81,7 +107,7 @@ export default {
   components: {
   },
   activated () {
-    this.getGroupFirstLevel(this.query)
+    // this.getGroupFirstLevel(this.query)
   },
   deactivated () {
     console.log('deactivated group')
@@ -90,14 +116,40 @@ export default {
 
   },
   mounted () {
+    this.getGroupFirstLevel(this.query)
+
+    this.getScreenHeight = `${document.documentElement.clientHeight}` - 140
+    // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+    window.onresize = () => {
+      this.getScreenHeight = `${document.documentElement.clientHeight}` - 140
+    }
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    // 加载更多
+    loadMore () {
+      this.query.pageNom++
+      this.getGroupFirstLevel(this.query)
+    },
+    inputChange (val) {
+      if (val === '') {
+        this.showSearchTree = false
+      }
+    },
     search_handle () {
-      const cellPhone = '18570866688'
-      this.getTreeByCellphone({ cellPhone }).then(res => {
+      const reg = /^[1][3,4,5,7,8,9][0-9]{9}$/
+
+      if (!this.cellPhone) {
+        this.$message('请输入手机号')
+        return
+      } else if (!reg.test(this.cellPhone)) {
+        this.$message('请输入正确的手机号')
+        return
+      }
+
+      this.getTreeByCellphone({ cellPhone: this.cellPhone }).then(res => {
         this.searchTree = [res]
         this.showSearchTree = true
       })
@@ -109,6 +161,7 @@ export default {
       })
     },
     handleNodeClick (data) {
+      this.currendNOde = data
       console.log(data)
     },
     loadNode1(node, resolve) {
@@ -148,7 +201,7 @@ export default {
       // if (node.level > 1) return resolve([])
     },
     // 团队所有A级
-    async getGroupFirstLevel (params, resolve) {
+    async getGroupFirstLevel (params) {
       const getGroupFirstLevel = await this.$http.getGroupFirstLevel(params).catch()
       if (getGroupFirstLevel && getGroupFirstLevel.records) {
         const _records = getGroupFirstLevel.records
@@ -157,11 +210,11 @@ export default {
           _records[i].child = []
           _records[i].append = false
         }
-        this.treeList = _records
-        console.log(this.treeList)
+
+        this.treeList.push(
+          ..._records
+        )
         this.showTree = true
-        // resolve(_records)
-        // this.MyTree = _records
       } else {
         getGroupFirstLevel && getGroupFirstLevel.errMsg && this.$toast(getGroupFirstLevel.errMsg)
       }
@@ -174,14 +227,6 @@ export default {
       } else {
         return Promise.reject(getTreeByCellphone.errMsg)
       }
-    },
-    check () {
-
-    },
-    select (item) {
-      // console.log(item)
-      item.show = !item.show
-      this.currentId = item.id
     }
   },
   watch: {
@@ -205,27 +250,64 @@ export default {
         margin-left 30px
       }
     }
-    .item-name{
-      color #606266
-      cursor pointer
-      // height 26px
-      line-height 26px
-      .arrow-icon{
-        display inline-block
-        transform: rotate(0);
-                transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
+    section{
+      overflow-y scroll;
+      display flex
+      .tree-info{
+        width: 50%;
+        overflow-x scroll
+      }
+      .node-info{
+        padding-left 10px
+        width: 50%;
+        // overflow-x scroll
+        .current-box{
+          padding: 10px;
+          border: 1px solid #409EFF;
+          border-radius: 10px;
+          .row{
+            display flex
+            .item{
+              flex 1
+              height 40px
+              display flex
+              align-items center
+              .label{
+                margin-right 5px;
+              }
+              .detail{
+                font-weight 500
+              }
+            }
+          }
+        }
+      }
+      .item-name{
+        color #606266
+        cursor pointer
+        // height 26px
+        line-height 26px
+        .arrow-icon{
+          display inline-block
+          transform: rotate(0);
+                  transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
 
+        }
+        .arrow-icon.apend{
+              transform: rotate(90deg);
+        }
+        .arrow-icon:before{
+              content: "\E791";
+              font-family: element-icons!important
+              color: #C0C4CC
+              font-size: 12px;
+              padding-right: 4px;
+              // transform: rotate(90deg);
+        }
       }
-      .arrow-icon.apend{
-            transform: rotate(90deg);
-      }
-      .arrow-icon:before{
-            content: "\E791";
-            font-family: element-icons!important
-            color: #C0C4CC
-            font-size: 12px;
-            padding-right: 4px;
-            // transform: rotate(90deg);
+      .loadmore-btn{
+        cursor pointer
+        color #409EFF
       }
     }
   }

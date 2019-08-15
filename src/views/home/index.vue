@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="home">
     <section>
-      首页
+      北京每选科技有限公司
     </section>
   </div>
 </template>
@@ -40,14 +40,14 @@ export default {
 
   },
   mounted () {
-    this.getUserInfo()
+    // this.getUserInfo()
 
-    const type = (this.query.type === 1 ? 0 : 1)
-    this.query = {
-      ...this.query,
-      type
-    }
-    this.handleCardList()
+    // const type = (this.query.type === 1 ? 0 : 1)
+    // this.query = {
+    //   ...this.query,
+    //   type
+    // }
+    // this.handleCardList()
   },
   computed: {
     ...mapGetters(['userInfo'])

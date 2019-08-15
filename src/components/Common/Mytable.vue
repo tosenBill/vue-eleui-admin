@@ -41,7 +41,7 @@ export default {
   components: {},
   data() {
     return {
-      maxHeight: window.innerHeight > 500 ? '525' : '500'
+      maxHeight: ''
     }
   },
   methods: {
@@ -60,6 +60,11 @@ export default {
   },
   mounted () {
     console.log(this.loading)
+    this.maxHeight = `${document.documentElement.clientHeight}` - 220
+    // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+    window.onresize = () => {
+      this.maxHeight = `${document.documentElement.clientHeight}` - 220
+    }
   },
   created() {},
   watch: {

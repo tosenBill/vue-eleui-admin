@@ -31,7 +31,11 @@ export default {
 	 * @param  {String} key
 	*/
    removeCookie (key) {
-			// 设置已过期，系统会立刻删除cookie
-			document.cookie = '_USER_COOKIE=; expires=Mon, 11 Nov 1990 00:00:00 GMT;path=/'
+      this.setCookie(key, '', -1)
+      // 设置已过期，系统会立刻删除cookie
+
+      // var date = new Date()
+      // date.setTime(date.getTime() - 10000)
+			// document.cookie = key + '=; expires=Mon, 11 Nov 1990 00:00:00 GMT;path=/'
 	}
 }

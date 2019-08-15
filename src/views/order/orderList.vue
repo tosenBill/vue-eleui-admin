@@ -13,13 +13,18 @@
         <el-input
           style="width: 200px"
           class="parentPhone-input"
-          placeholder="关联订单查询"
+          placeholder="工号查询"
           v-model.trim="query.parentPhone"
           clearable>
         </el-input>
 
         <!-- <template> -->
-          <el-select style="width: 130px" v-model="queryStatus"  clearable placeholder="请选择状态">
+          <el-select
+            class="cellPhone-input"
+            style="width: 130px"
+            v-model="queryStatus"
+            clearable
+            placeholder="请选择状态">
             <el-option
               v-for="item in statusOptions"
               :key="item.value"
@@ -27,11 +32,40 @@
               :value="item.value">
             </el-option>
           </el-select>
+
+          <el-date-picker
+            v-model="value7"
+            type="datetimerange"
+            :picker-options="pickerOptions2"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right">
+          </el-date-picker>
+
+           <!-- <el-date-picker
+            v-model="value7"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :picker-options="pickerOptions2">
+          </el-date-picker> -->
+
+          <!-- <el-date-picker
+            v-model="value4"
+            type="month"
+            placeholder="选择月">
+          </el-date-picker> -->
         <!-- </template> -->
 
         <el-button class="search-btn" type="primary" icon="el-icon-search" size="medium" @click="search_handle">搜索</el-button>
       </div>
-      <el-button type="primary" icon="el-icon-download" size="medium">导出</el-button>
+      <!-- <el-button type="primary" icon="el-icon-download" size="medium">导出</el-button> -->
     </header>
     <section>
       <my-tables
@@ -41,66 +75,58 @@
         :page="query.pageNom"
         :total="totalElements"
         @pageChange="pageChange_handler"
+        class="mytable"
         >
         <el-table-column
           label="办卡人信息"
           align="center"
           >
           <template slot-scope="scope">
-            <div style="text-align:left;">
-              <span>姓名: </span><span>{{scope.row.name + '&nbsp;&nbsp;'}}</span>
-              <span>手机: </span><span>{{scope.row.contactNumber}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">姓名: </span><span class="val">{{scope.row.name + '&nbsp;&nbsp;'}}</span>
+              <span class="label">手机: </span><span class="val">{{scope.row.contactNumber}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>入网号码: </span><span>{{scope.row.cellPhone + '&nbsp;&nbsp;'}}</span>
-              <span>办理套餐: </span><span>{{scope.row.setMeal}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">入网号码: </span><span class="val">{{scope.row.cellPhone + '&nbsp;&nbsp;'}}</span>
+              <span class="label">办理套餐: </span><span class="val">{{scope.row.setMeal}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>权益礼包: </span><span>{{scope.row.deliveryType || '暂无' + '&nbsp;&nbsp;'}}</span>
-              <span>礼包发放地址: </span><span>{{scope.row.address}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">权益礼包: </span><span class="val">{{scope.row.deliveryType || '暂无' + '&nbsp;&nbsp;'}}</span>
+              <span class="label">礼包发放地址: </span><span class="val">{{scope.row.address}}</span>
             </div>
             <!-- statusVo -->
-            <div v-if="scope.row.statusVo">
+            <div v-if="scope.row.statusVo" class="row">
             <div style="text-align:left;">
-              <span>资料审核: </span><span>{{scope.row.statusVo.auditStatus  + '&nbsp;&nbsp;'}}</span>
-              <span>充值缴费: </span><span>{{scope.row.statusVo.isPay}}</span>
+              <span class="label">资料审核: </span><span class="val">{{scope.row.statusVo.auditStatus  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">充值缴费: </span><span class="val">{{scope.row.statusVo.isPay}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>余额宝冻结: </span><span>{{scope.row.statusVo.isFreeze  + '&nbsp;&nbsp;'}}</span>
-              <span>号卡邮寄: </span><span>{{scope.row.statusVo.logisticsStatus + '&nbsp;&nbsp;'}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">余额宝冻结: </span><span class="val">{{scope.row.statusVo.isFreeze  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">号卡邮寄: </span><span class="val">{{scope.row.statusVo.logisticsStatus + '&nbsp;&nbsp;'}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>激活号卡: </span><span>{{scope.row.statusVo.activateStatus}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">激活号卡: </span><span class="val">{{scope.row.statusVo.activateStatus}}</span>
             </div>
 
-            <div style="text-align:left;">
-              <span>物流公司: </span><span>{{scope.row.statusVo.logisticsCompany  + '&nbsp;&nbsp;'}}</span>
-              <span>物流单号: </span><span>{{scope.row.statusVo.logisticsNum}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">物流公司: </span><span class="val">{{scope.row.statusVo.logisticsCompany  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">物流单号: </span><span class="val">{{scope.row.statusVo.logisticsNum}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>收件人: </span><span>{{scope.row.statusVo.receiverName  + '&nbsp;&nbsp;'}}</span>
-              <span>联系电话: </span><span>{{scope.row.statusVo.receiverPhone + '&nbsp;&nbsp;'}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">收件人: </span><span class="val">{{scope.row.statusVo.receiverName  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">联系电话: </span><span class="val">{{scope.row.statusVo.receiverPhone + '&nbsp;&nbsp;'}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>权益卡收货地址: </span><span>{{scope.row.statusVo.receiverAddress}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">权益卡收货地址: </span><span class="val">{{scope.row.statusVo.receiverAddress}}</span>
             </div>
-            <div style="text-align:left;" v-if="scope.row.statusVo.nextStep">
-              <span>下一步: </span><span style="font-wight:bold;">{{scope.row.statusVo.nextStep}}</span>
+            <div style="text-align:left;" class="row" v-if="scope.row.statusVo.nextStep">
+              <span >下一步: </span><span style="font-wight:bold;" class="val">{{scope.row.statusVo.nextStep}}</span>
             </div>
-            <div style="text-align:left;">
+            <div style="text-align:left;" class="row">
               <span style="color:#e4393c;">{{scope.row.statusVo.errorMsg}}</span>
             </div>
             </div>
           </template>
-          <!-- <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>姓名: {{ scope.row.name }}</p>
-              <p>手机: {{ scope.row.cellPhone }}</p>
-              <div slot="reference" class="name-wrapper">
-                <el-tag size="medium">{{ scope.row.name }}</el-tag>
-              </div>
-            </el-popover>
-          </template> -->
         </el-table-column>
 
         <el-table-column
@@ -108,25 +134,25 @@
           align="center"
           >
           <template slot-scope="scope" v-if="scope.row.cooperator">
-            <div style="text-align:left;">
-              <span>姓名: </span><span>{{scope.row.cooperator.name  + '&nbsp;&nbsp;'}}</span>
-              <span>联系方式: </span><span>{{scope.row.cooperator.contactNumber + '&nbsp;&nbsp;'}}</span>
-              <span>团队数量: </span><span>{{scope.row.cooperator.teamCount}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">姓名: </span><span class="val">{{scope.row.cooperator.name  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">联系方式: </span><span class="val">{{scope.row.cooperator.contactNumber + '&nbsp;&nbsp;'}}</span>
+              <span class="label">团队数量: </span><span class="val">{{scope.row.cooperator.teamCount}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>入网号码: </span><span>{{scope.row.cooperator.cellPhone  + '&nbsp;&nbsp;'}}</span>
-              <span>类型: </span><span>{{scope.row.cooperator.userType}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">入网号码: </span><span class="val">{{scope.row.cooperator.cellPhone  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">类型: </span><span class="val">{{scope.row.cooperator.userType}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>支付宝: </span><span>{{scope.row.cooperator.aliPay  + '&nbsp;&nbsp;'}}</span>
-              <span>身份证号: </span><span>{{scope.row.cooperator.idCard}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">支付宝: </span><span class="val">{{scope.row.cooperator.aliPay  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">身份证号: </span><span class="val">{{scope.row.cooperator.idCard}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>开户行: </span><span>{{scope.row.cooperator.openingBank  + '&nbsp;&nbsp;'}}</span>
-              <span>银行卡号: </span><span>{{scope.row.cooperator.bankCard}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">开户行: </span><span class="val">{{scope.row.cooperator.openingBank  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">银行卡号: </span><span class="val">{{scope.row.cooperator.bankCard}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>联系地址: </span><span>{{scope.row.cooperator.address || ''}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">联系地址: </span><span class="val">{{scope.row.cooperator.address || ''}}</span>
             </div>
           </template>
           <!-- <template slot-scope="scope" v-if="!scope.row.cooperator">
@@ -141,25 +167,25 @@
           align="center"
           >
           <template slot-scope="scope" v-if="scope.row.recommend">
-            <div style="text-align:left;">
-              <span>姓名: </span><span>{{scope.row.recommend.name || ''  + '&nbsp;&nbsp;'}}</span>
-              <span>联系方式: </span><span>{{scope.row.recommend.contactNumber || '' + '&nbsp;&nbsp;'}}</span>
-              <span>团队数量: </span><span>{{scope.row.recommend.teamCount || ''}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">姓名: </span><span class="val">{{scope.row.recommend.name || ''  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">联系方式: </span><span class="val">{{scope.row.recommend.contactNumber || '' + '&nbsp;&nbsp;'}}</span>
+              <span class="label">团队数量: </span><span class="val">{{scope.row.recommend.teamCount || ''}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>入网号码: </span><span>{{scope.row.recommend.cellPhone || ''  + '&nbsp;&nbsp;'}}</span>
-              <span>类型: </span><span>{{scope.row.recommend.userType || ''}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">入网号码: </span><span class="val">{{scope.row.recommend.cellPhone || ''  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">类型: </span><span class="val">{{scope.row.recommend.userType || ''}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>支付宝: </span><span>{{scope.row.recommend.aliPay || '暂无'  + '&nbsp;&nbsp;'}}</span>
-              <span>身份证号: </span><span>{{scope.row.recommend.idCard || '暂无'}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">支付宝: </span><span class="val">{{scope.row.recommend.aliPay || '暂无'  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">身份证号: </span><span class="val">{{scope.row.recommend.idCard || '暂无'}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>开户行: </span><span>{{scope.row.recommend.openingBank || '暂无' + '&nbsp;&nbsp;'}}</span>
-              <span>银行卡号: </span><span>{{scope.row.recommend.bankCard || '暂无'}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">开户行: </span><span class="val">{{scope.row.recommend.openingBank || '暂无' + '&nbsp;&nbsp;'}}</span>
+              <span class="label">银行卡号: </span><span class="val">{{scope.row.recommend.bankCard || '暂无'}}</span>
             </div>
-            <div style="text-align:left;">
-              <span>联系地址: </span><span>{{scope.row.recommend.address || ''}}</span>
+            <div style="text-align:left;" class="row">
+              <span class="label">联系地址: </span><span class="val">{{scope.row.recommend.address || ''}}</span>
             </div>
           </template>
 
@@ -167,10 +193,12 @@
 
         <el-table-column label="操作"  width="110" align="center">
           <template slot-scope="scope">
+            <div class="has-account-btn" v-if="scope.row.status == '1'">已结算</div>
             <el-button
+              v-else
               size="mini"
               type="primary"
-              @click="handleEdit(scope.row)">状态审核</el-button>
+              @click="handleEdit(scope.row)">确定结算</el-button>
             <!-- <el-button
               size="mini"
               type="danger"
@@ -180,23 +208,24 @@
       </my-tables>
     </section>
     <el-dialog
-      title="审核状态"
+      title="确定结算"
       :visible.sync="dialogVisible"
       width="30%"
-      @close="dialog_close_handle"
+      :show-close="false"
       >
       <div>
-        <el-input
+         <span>是否确定结算？</span>
+        <!-- <el-input
           style="width:100%"
           class="cellPhone-input"
           placeholder="请输入开户手机号"
           v-model.trim="cellPhone"
           clearable>
-        </el-input>
-        <p v-if="dialogMsg" style="color:#e4393c;margin-top:5px;">{{dialogMsg}}</p>
+        </el-input> -->
+        <!-- <p v-if="dialogMsg" style="color:#e4393c;margin-top:5px;">{{dialogMsg}}</p> -->
       </div>
       <span slot="footer" class="dialog-footer">
-        <!-- <el-button @click="dialogVisible = false">取 消</el-button> -->
+        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="change_status_handle">确 定</el-button>
       </span>
     </el-dialog>
@@ -205,7 +234,7 @@
 
 <script>
 
-import types from '@store/type'
+// import types from '@store/type'
 import MyTables from '@components/Common/Mytable'
 import { mapGetters } from 'vuex'
 
@@ -216,13 +245,16 @@ export default {
       dialogVisible: false,
       cellPhone: '',
       dialogMsg: '',
+      value7: '',
       query: {
         pageNom: 1,
         size: 20,
         cellPhone: '',
-        status: 0, // 全部0，通过1，未通过2
+        status: 0, // 全部0，已结算1，未结算2
         type: 0, // 直推信息代表’1‘，间推 ’0‘
-        parentPhone: '' // 此号码下所有办卡信息
+        parentPhone: '', // 此号码下所有办卡信息
+        startTime: '',
+        endTime: ''
       },
       queryStatus: '',
       statusOptions: [{
@@ -230,16 +262,43 @@ export default {
         label: '全部'
       }, {
         value: '1',
-        label: '通过'
+        label: '已结算'
       }, {
         value: '2',
-        label: '未通过'
+        label: '未结算'
       }],
       flags: {
         loading: true
       },
       dataList: [],
-      totalElements: 0
+      totalElements: 0,
+      pickerOptions2: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      }
     }
   },
   components: {
@@ -249,39 +308,21 @@ export default {
   },
   deactivated () {
     console.log('deactivated order')
-    this.flags = {
-      loading: true
-    }
-    this.dataList = []
-    this.totalElements = 0
+    // this.flags = {
+    //   loading: true
+    // }
+    // this.dataList = []
+    // this.totalElements = 0
   },
   created() {
-
   },
   mounted () {
-    // this.getUserInfo()
-
-    // const type = (this.query.type === 1 ? 0 : 1)
-    // this.query = {
-    //   ...this.query,
-    //   type
-    // }
     this.orderList()
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   methods: {
-    async getUserInfo () {
-      const userInfo = await this.$http.getUserInfo().catch()
-      if (userInfo && userInfo.data) {
-        //
-        this.$store.commit(types.SET_USER_INFO, userInfo.data)
-        console.log(this.userInfo)
-      } else {
-        // this.$toast(userInfo.errMsg)
-      }
-    },
     async orderList () {
       this.flags.loading = true
       const orderList = await this.$http.orderList(this.query).catch(err => console.log(err))
@@ -356,9 +397,9 @@ export default {
       }
     },
     // dialog 关闭回调
-    dialog_close_handle () {
-      this.cellPhone = ''
-    },
+    // dialog_close_handle () {
+    //   this.cellPhone = ''
+    // },
     // dialog 确定按钮
     change_status_handle () {
       const regPhone = /^[1][3,4,5,7,8,9][0-9]{9}$/
@@ -418,12 +459,19 @@ export default {
       if (!val && oldval) {
         this.orderList()
       }
+    },
+    value7 (val) {
+      console.log(val)
+      this.query.startTime = val[0] || ''
+      this.query.endTime = val[1] || ''
+      console.log(this.query)
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
   .orderlist{
+    height 1000px
     header{
       min-height 60px
       display flex
@@ -442,6 +490,19 @@ export default {
         .search-btn{
           margin-left 20px
         }
+      }
+    }
+    section {
+      .row{
+        .label{
+          font-weight:500
+        }
+        .val{
+          color:#818193;
+        }
+      }
+      .has-account-btn{
+        color:#51d251;
       }
     }
   }

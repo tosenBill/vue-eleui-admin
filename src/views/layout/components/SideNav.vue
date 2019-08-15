@@ -50,38 +50,38 @@ export default {
           ]
         },
         {
-          groupName: '团队信息',
-          path: 'groupInfo',
-          icon: 'el-icon-menu',
-          children: [
-            {
-              urlLink: 'groupInfo',
-              name: '团队信息'
-            }
-          ]
-        },
-        {
-          groupName: '团队树形',
-          path: 'groupTree',
-          icon: 'el-icon-menu',
-          children: [
-            {
-              urlLink: 'groupTree',
-              name: '团队树形'
-            }
-          ]
-        },
-        {
-          groupName: 'myTree',
+          groupName: '团队结构',
           path: 'myTree',
           icon: 'el-icon-menu',
           children: [
             {
               urlLink: 'myTree',
-              name: 'myTree'
+              name: '团队结构'
             }
           ]
         }
+        // {
+        //   groupName: '团队信息',
+        //   path: 'groupInfo',
+        //   icon: 'el-icon-menu',
+        //   children: [
+        //     {
+        //       urlLink: 'groupInfo',
+        //       name: '团队信息'
+        //     }
+        //   ]
+        // },
+        // {
+        //   groupName: '团队树形',
+        //   path: 'groupTree',
+        //   icon: 'el-icon-menu',
+        //   children: [
+        //     {
+        //       urlLink: 'groupTree',
+        //       name: '团队树形'
+        //     }
+        //   ]
+        // },
         // {
         //   groupName: '权限',
         //   path: 'permissionome',
