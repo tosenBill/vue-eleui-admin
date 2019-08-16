@@ -28,7 +28,7 @@
         <div v-show="!showSearchTree">
           <div v-if="showTree">
             <div v-for="(item, index) in treeList" :key="index">
-              <div class="item-name" >
+              <div class="item-name">
                 <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
                 <span>{{item.name}}</span>
               </div>

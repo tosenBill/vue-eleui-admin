@@ -2,69 +2,85 @@
   <div id="orderlist" class="orderlist container">
     <header>
       <div class="search-box">
+        <!-- <el-input
+          style="width: 200px"
+          class="cellPhone-input"
+          placeholder="办卡人姓名或入网号码查询"
+          v-model.trim="query.cardName"
+          clearable>
+        </el-input> -->
+
         <el-input
           style="width: 200px"
           class="cellPhone-input"
-          placeholder="订单查询"
+          placeholder="办卡人姓名或入网号码查询"
           v-model.trim="query.cellPhone"
           clearable>
         </el-input>
 
         <el-input
-          style="width: 200px"
+          style="width: 175px"
           class="parentPhone-input"
-          placeholder="工号查询"
+          placeholder="推荐人权益卡号查询"
           v-model.trim="query.parentPhone"
           clearable>
         </el-input>
 
-        <!-- <template> -->
-          <el-select
-            class="cellPhone-input"
-            style="width: 130px"
-            v-model="queryStatus"
-            clearable
-            placeholder="请选择状态">
-            <el-option
-              v-for="item in statusOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+        <!-- <el-input
+          style="width: 200px"
+          class="cellPhone-input"
+          placeholder="合作商姓名查询"
+          v-model.trim="query.cooperativeName"
+          clearable>
+        </el-input> -->
 
-          <el-date-picker
-            v-model="value7"
-            type="datetimerange"
-            :picker-options="pickerOptions2"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            align="right">
-          </el-date-picker>
+        <el-select
+          class="cellPhone-input"
+          style="width: 130px"
+          v-model="queryStatus"
+          clearable
+          placeholder="结算状态查询">
+          <el-option
+            v-for="item in accountStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
-           <!-- <el-date-picker
-            v-model="value7"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :picker-options="pickerOptions2">
-          </el-date-picker> -->
+        <el-select
+          class="cellPhone-input"
+          style="width: 130px"
+          v-model="recommendType"
+          clearable
+          placeholder="推荐方式查询">
+          <el-option
+            v-for="item in recommendStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
-          <!-- <el-date-picker
-            v-model="value4"
-            type="month"
-            placeholder="选择月">
-          </el-date-picker> -->
-        <!-- </template> -->
+        <el-date-picker
+          v-model="value7"
+          type="datetimerange"
+          :picker-options="pickerOptions2"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          align="right">
+        </el-date-picker>
 
-        <el-button class="search-btn" type="primary" icon="el-icon-search" size="medium" @click="search_handle">搜索</el-button>
+        <el-button class="search-btn"
+          type="primary"
+          icon="el-icon-search"
+          size="medium"
+          @click="search_handle">
+          搜索</el-button>
       </div>
+      <div class="search-box"></div>
       <!-- <el-button type="primary" icon="el-icon-download" size="medium">导出</el-button> -->
     </header>
     <section>
@@ -109,15 +125,15 @@
             </div>
 
             <div style="text-align:left;" class="row">
-              <span class="label">物流公司: </span><span class="val">{{scope.row.statusVo.logisticsCompany  + '&nbsp;&nbsp;'}}</span>
-              <span class="label">物流单号: </span><span class="val">{{scope.row.statusVo.logisticsNum}}</span>
+              <span class="label">物流公司: </span><span class="val">{{scope.row.statusVo.logisticsCompany || '暂无'  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">物流单号: </span><span class="val">{{scope.row.statusVo.logisticsNum || '暂无'}}</span>
             </div>
             <div style="text-align:left;" class="row">
-              <span class="label">收件人: </span><span class="val">{{scope.row.statusVo.receiverName  + '&nbsp;&nbsp;'}}</span>
-              <span class="label">联系电话: </span><span class="val">{{scope.row.statusVo.receiverPhone + '&nbsp;&nbsp;'}}</span>
+              <span class="label">收件人: </span><span class="val">{{scope.row.statusVo.receiverName || '暂无'  + '&nbsp;&nbsp;'}}</span>
+              <span class="label">联系电话: </span><span class="val">{{scope.row.statusVo.receiverPhone || '暂无' + '&nbsp;&nbsp;'}}</span>
             </div>
             <div style="text-align:left;" class="row">
-              <span class="label">权益卡收货地址: </span><span class="val">{{scope.row.statusVo.receiverAddress}}</span>
+              <span class="label">权益卡收货地址: </span><span class="val">{{scope.row.statusVo.receiverAddress || '暂无'}}</span>
             </div>
             <div style="text-align:left;" class="row" v-if="scope.row.statusVo.nextStep">
               <span >下一步: </span><span style="font-wight:bold;" class="val">{{scope.row.statusVo.nextStep}}</span>
@@ -251,13 +267,16 @@ export default {
         size: 20,
         cellPhone: '',
         status: 0, // 全部0，已结算1，未结算2
-        type: 0, // 直推信息代表’1‘，间推 ’0‘
+        type: '', // 直推信息代表’1‘，间推 ’0‘，‘空’为全部
         parentPhone: '', // 此号码下所有办卡信息
         startTime: '',
-        endTime: ''
+        endTime: '',
+        cardName: '' // 办卡人姓名
+        // cooperativeName: '' // 合作商姓名
       },
       queryStatus: '',
-      statusOptions: [{
+      recommendType: '',
+      accountStatus: [{
         value: '0',
         label: '全部'
       }, {
@@ -266,6 +285,13 @@ export default {
       }, {
         value: '2',
         label: '未结算'
+      }],
+      recommendStatus: [{
+        value: '1',
+        label: '直推'
+      }, {
+        value: '0',
+        label: '间推'
       }],
       flags: {
         loading: true
@@ -307,12 +333,7 @@ export default {
   activated () {
   },
   deactivated () {
-    console.log('deactivated order')
-    // this.flags = {
-    //   loading: true
-    // }
-    // this.dataList = []
-    // this.totalElements = 0
+    // console.log('deactivated order')
   },
   created() {
   },
@@ -396,10 +417,6 @@ export default {
         return Promise.reject(changeStatus)
       }
     },
-    // dialog 关闭回调
-    // dialog_close_handle () {
-    //   this.cellPhone = ''
-    // },
     // dialog 确定按钮
     change_status_handle () {
       const regPhone = /^[1][3,4,5,7,8,9][0-9]{9}$/
@@ -440,7 +457,8 @@ export default {
       }
     },
     search_handle () {
-      this.query.status = this.queryStatus
+      this.query.status = this.queryStatus || 0
+      this.query.type = this.recommendType
       this.orderList()
     },
     /**
@@ -452,8 +470,11 @@ export default {
     }
   },
   watch: {
+    // recommendType (newval, oldval) {
+    //   !this.recommendType && (this.query.type = 1) // 设置初始值
+    // },
     queryStatus (newval, oldval) {
-      !this.queryStatus && (this.query.status = 0)
+      !this.queryStatus && (this.query.status = 0) // 设置初始值
     },
     'query.cellPhone' (val, oldval) { // 监控清空时操作
       if (!val && oldval) {
@@ -461,34 +482,34 @@ export default {
       }
     },
     value7 (val) {
-      console.log(val)
       this.query.startTime = val[0] || ''
       this.query.endTime = val[1] || ''
-      console.log(this.query)
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
   .orderlist{
-    height 1000px
     header{
-      min-height 60px
-      display flex
-      align-items center
-      justify-content space-between
+      min-height 50px
+      // display flex
+      // align-items center
+      // justify-content space-between
       // padding: 10px 20px
       // min-width: 600px
       // overflow-x scroll
       .search-box{
-        display flex;
-        margin-right: 20px;
+        // display flex;
+        // margin-right: 20px;
         .parentPhone-input,
         .cellPhone-input{
-          margin-right 20px
+          margin-right 10px
         }
         .search-btn{
-          margin-left 20px
+          margin-left 10px
+        }
+        &:nth-child(2) {
+          margin-top 10px
         }
       }
     }
@@ -496,8 +517,10 @@ export default {
       .row{
         .label{
           font-weight:500
+          margin-right 5px
         }
         .val{
+          margin-right 5px
           color:#818193;
         }
       }
