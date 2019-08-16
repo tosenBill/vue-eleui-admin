@@ -25,12 +25,14 @@
             >
           </el-tree>
         </div>
+
         <div v-show="!showSearchTree">
           <div v-if="showTree">
             <div v-for="(item, index) in treeList" :key="index">
-              <div class="item-name">
+              <div class="item-name" v-if="!item.append">
                 <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
                 <span>{{item.name}}</span>
+                <i class="el-icon-loading" v-if="item.showLoading"></i>
               </div>
               <div v-if="item.append">
                 <el-tree
@@ -46,7 +48,8 @@
                 </el-tree>
               </div>
             </div>
-            <div class="loadmore-btn" @click="loadMore">加载更多</div>
+            <div v-if="isLastpage" class="no-more-tip">无更多数据</div>
+            <div v-else class="loadmore-btn" @click="loadMore">加载更多</div>
           </div>
         </div>
       </div>
@@ -82,6 +85,7 @@
 
 // import types from '@store/type'
 import { mapGetters } from 'vuex'
+import { Loading } from 'element-ui'
 
 export default {
   name: 'mytree',
@@ -93,6 +97,7 @@ export default {
       searchTree: [],
       showSearchTree: false,
       showTree: false,
+      isLastpage: false,
       currendNOde: {},
       query: {
         pageNom: 1,
@@ -132,6 +137,15 @@ export default {
     loadMore () {
       this.query.pageNom++
       this.getGroupFirstLevel(this.query)
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: 'Loading',
+      //   spinner: 'el-icon-loading',
+      //   background: 'rgba(0, 0, 0, 0.7)'
+      // })
+      // setTimeout(() => {
+      //   loading.close()
+      // }, 2000)
     },
     inputChange (val) {
       if (val === '') {
@@ -152,63 +166,46 @@ export default {
       this.getTreeByCellphone({ cellPhone: this.cellPhone }).then(res => {
         this.searchTree = [res]
         this.showSearchTree = true
+      }).catch(err => {
+        this.$toast(err)
       })
     },
     treeLabelclick (item, index) {
-      this.getTreeByCellphone({ cellPhone: item.cellPhone }).then(res => {
+      item.showLoading = true
+      this.getTreeByCellphone({ cellPhone: item.cellPhone })
+      .then(res => {
         this.treeList[index].append = !this.treeList[index].append
         this.treeList[index].child = [res]
+      })
+      .catch(err => {
+        this.$toast(err)
+      })
+      .finally(() => {
+        item.showLoading = false
       })
     },
     handleNodeClick (data) {
       this.currendNOde = data
       console.log(data)
     },
-    loadNode1(node, resolve) {
-      // 一级节点处理
-      // if (node.level === 0) {
-      //   // return resolve([{ name: 'region' }])
-      //   // this.getGroupFirstLevel(this.query, resolve)
-      //   this.getTreeByCellphone({ cellPhone: '18570862898' }).then(res => {
-      //     this.myTree = resolve([res])
-      //   })
-      // }
-      // 其余节点处理
-      // if (node.level === 1) {
-      //   // 注意！把resolve传到你自己的异步中去 18570862898
-      //   console.log(node)
-      //   setTimeout(() => {
-      //     const data = [{
-      //       name: 'leaf',
-      //       children: [{
-      //         name: '三级 1-1-1'
-      //       }, {
-      //         name: '三级 1-1-2'
-      //       }]
-      //     }, {
-      //       name: 'zone'
-      //     }]
-
-      //     console.log(data)
-      //     resolve(data)
-      //   }, 500)
-      //   this.getTreeByCellphone({ cellPhone: node.data.cellPhone }).then(res => {
-      //     // resolve([res])
-      //     console.log(res)
-      //   })
-      //   console.log(333)
-      // }
-      // if (node.level > 1) return resolve([])
-    },
     // 团队所有A级
     async getGroupFirstLevel (params) {
+      const loadingInstance = Loading.service({
+        target: 'section',
+        lock: true,
+        text: '玩命加载中...',
+        fullscreen: true
+      })
+
       const getGroupFirstLevel = await this.$http.getGroupFirstLevel(params).catch()
       if (getGroupFirstLevel && getGroupFirstLevel.records) {
+        this.isLastpage = getGroupFirstLevel.lastPage
         const _records = getGroupFirstLevel.records
 
         for (let i = 0; i < _records.length; i++) {
           _records[i].child = []
           _records[i].append = false
+          _records[i].showLoading = false // 显示加载中icon
         }
 
         this.treeList.push(
@@ -218,6 +215,10 @@ export default {
       } else {
         getGroupFirstLevel && getGroupFirstLevel.errMsg && this.$toast(getGroupFirstLevel.errMsg)
       }
+
+      this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+        loadingInstance.close()
+      })
     },
     // A级所有关系树
     async getTreeByCellphone (params) {
@@ -225,7 +226,7 @@ export default {
       if (getTreeByCellphone) {
         return Promise.resolve(getTreeByCellphone)
       } else {
-        return Promise.reject(getTreeByCellphone.errMsg)
+        return Promise.reject(getTreeByCellphone.errMsg || '获取失败')
       }
     }
   },
@@ -285,29 +286,35 @@ export default {
       .item-name{
         color #606266
         cursor pointer
-        // height 26px
+        padding-left: 5px;
         line-height 26px
         .arrow-icon{
           display inline-block
           transform: rotate(0);
-                  transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
-
+          transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
         }
         .arrow-icon.apend{
-              transform: rotate(90deg);
+          transform: rotate(90deg);
         }
         .arrow-icon:before{
-              content: "\E791";
-              font-family: element-icons!important
-              color: #C0C4CC
-              font-size: 12px;
-              padding-right: 4px;
-              // transform: rotate(90deg);
+          content: "\E791";
+          font-family: element-icons!important
+          color: #C0C4CC
+          font-size: 12px;
+          padding-right: 4px;
+        }
+        i{
+          color #409eff
+          margin-left 3px
         }
       }
       .loadmore-btn{
         cursor pointer
         color #409EFF
+      }
+      .no-more-tip{
+        color: #535075;
+        padding: 5px 0;
       }
     }
   }
