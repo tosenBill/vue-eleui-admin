@@ -6,7 +6,7 @@
       </div>
       <el-form-item prop="cellPhone">
         <span class="svg-container">
-          <!-- <i class="el-icon-view"></i> -->
+          <i class="adolf-icon-user"></i>
         </span>
         <el-input
           v-model="loginForm.cellPhone"
@@ -18,7 +18,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <!-- <i class="el-icon-view"></i> -->
+          <i class="adolf-icon-key"></i>
         </span>
         <el-input
           :type="passwordType"
