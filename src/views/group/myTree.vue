@@ -137,15 +137,6 @@ export default {
     loadMore () {
       this.query.pageNom++
       this.getGroupFirstLevel(this.query)
-      // const loading = this.$loading({
-      //   lock: true,
-      //   text: 'Loading',
-      //   spinner: 'el-icon-loading',
-      //   background: 'rgba(0, 0, 0, 0.7)'
-      // })
-      // setTimeout(() => {
-      //   loading.close()
-      // }, 2000)
     },
     inputChange (val) {
       if (val === '') {

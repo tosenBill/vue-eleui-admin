@@ -37,6 +37,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { Loading } from 'element-ui'
 // import * as types from '../store/type'
 import valid from '@utils/valid'
 export default {
@@ -86,6 +87,13 @@ export default {
 		handleLogin(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+          const loadingInstance = Loading.service({
+            target: 'section',
+            lock: true,
+            text: '正在登录...',
+            fullscreen: true
+          })
+
 					this.$http.loginIn(this.loginForm).then(res => {
             console.log('loginIn-res', res)
             // if ()
@@ -93,6 +101,12 @@ export default {
               this.$Utils.setCookie('token', res.token, 1)
               this.$router.go(-1)
             }
+          }).catch(err => {
+            this.$toast(err.errMsg || '登录失败')
+          }).finally(() => {
+            this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+              loadingInstance.close()
+            })
           })
 					// this.$store.commit(types.SET_USER_INFO, this.loginForm)
 
