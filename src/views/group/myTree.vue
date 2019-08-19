@@ -15,6 +15,7 @@
       <div class="tree-info">
         <div class="search-tree" v-if="showSearchTree">
           <el-tree
+            :indent="0"
             empty-text=""
             :props="defaultProps"
             :data="searchTree"
@@ -32,10 +33,13 @@
               <div class="item-name" v-if="!item.append">
                 <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
                 <span>{{item.name}}</span>
+                <!-- <i class="el-icon-edit"></i>
+                <i class="el-icon-delete"></i> -->
                 <i class="el-icon-loading" v-if="item.showLoading"></i>
               </div>
               <div v-if="item.append">
                 <el-tree
+                  :indent="0"
                   empty-text=""
                   :props="defaultProps"
                   :data="treeList[index].child"
@@ -73,6 +77,32 @@
             <div class="item">
               <span class="label">身份：</span>
               <span class="detail">{{currendNOde.userType || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">支付宝账号：</span>
+              <span class="detail">{{currendNOde.aliPay || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">身份证号：</span>
+              <span class="detail">{{currendNOde.idCard || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">银行卡号：</span>
+              <span class="detail">{{currendNOde.bankCard || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">开户行：</span>
+              <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">推荐人电话：</span>
+              <span class="detail">{{currendNOde.recommenderPhone || '未填写'}}</span>
             </div>
           </div>
         </div>
@@ -165,8 +195,10 @@ export default {
       item.showLoading = true
       this.getTreeByCellphone({ cellPhone: item.cellPhone })
       .then(res => {
-        this.treeList[index].append = !this.treeList[index].append
-        this.treeList[index].child = [res]
+        if (res) {
+          this.treeList[index].append = !this.treeList[index].append
+          this.treeList[index].child = [res]
+        }
       })
       .catch(err => {
         this.$toast(err)
