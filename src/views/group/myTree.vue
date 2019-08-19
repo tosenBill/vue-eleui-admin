@@ -13,99 +13,103 @@
     </header>
     <section :style="{ height: getScreenHeight +'px'}">
       <div class="tree-info">
-        <div class="search-tree" v-if="showSearchTree">
-          <el-tree
-            :indent="0"
-            empty-text=""
-            :props="defaultProps"
-            :data="searchTree"
-            ref="tree"
-            default-expand-all
-            node-key="cellPhone"
-            @node-click="handleNodeClick"
-            >
-          </el-tree>
-        </div>
-
-        <div v-show="!showSearchTree">
-          <div v-if="showTree">
-            <div v-for="(item, index) in treeList" :key="index">
-              <div class="item-name" v-if="!item.append">
-                <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
-                <span>{{item.name}}</span>
-                <!-- <i class="el-icon-edit"></i>
-                <i class="el-icon-delete"></i> -->
-                <i class="el-icon-loading" v-if="item.showLoading"></i>
-              </div>
-              <div v-if="item.append">
-                <el-tree
-                  :indent="0"
-                  empty-text=""
-                  :props="defaultProps"
-                  :data="treeList[index].child"
-                  :expand-on-click-node="false"
-                  ref="tree"
-                  default-expand-all
-                  node-key="cellPhone"
-                  @node-click="handleNodeClick"
-                  >
-                </el-tree>
-              </div>
-            </div>
-            <div v-if="isLastpage" class="no-more-tip">无更多数据</div>
-            <div v-else class="loadmore-btn" @click="loadMore">加载更多</div>
+        <el-scrollbar style="height: 100%;">
+          <div class="search-tree" v-if="showSearchTree">
+            <el-tree
+              :indent="0"
+              empty-text=""
+              :props="defaultProps"
+              :data="searchTree"
+              ref="searchTreeNode"
+              default-expand-all
+              node-key="cellPhone"
+              @node-click="handleNodeClick"
+              >
+            </el-tree>
           </div>
-        </div>
+
+          <div v-show="!showSearchTree">
+            <div v-if="showTree">
+              <div v-for="(item, index) in treeList" :key="index">
+                <div class="item-name" v-if="!item.append">
+                  <span  @click="treeLabelclick(item, index)" class="arrow-icon" :class="{'apend':item.append}"></span>
+                  <span>{{item.name}}</span>
+                  <!-- <i class="el-icon-edit"></i>
+                  <i class="el-icon-delete"></i> -->
+                  <i class="el-icon-loading" v-if="item.showLoading"></i>
+                </div>
+                <div v-if="item.append">
+                  <el-tree
+                    :indent="0"
+                    empty-text=""
+                    :props="defaultProps"
+                    :data="treeList[index].child"
+                    :expand-on-click-node="false"
+                    ref="tree"
+                    default-expand-all
+                    node-key="cellPhone"
+                    @node-click="handleNodeClick"
+                    >
+                  </el-tree>
+                </div>
+              </div>
+              <div v-if="isLastpage" class="no-more-tip">无更多数据</div>
+              <div v-else class="loadmore-btn" @click="loadMore">加载更多</div>
+            </div>
+          </div>
+        </el-scrollbar>
       </div>
       <div class="node-info" v-if="JSON.stringify(currendNOde) != '{}'">
-        <div class="current-box">
-          <div class="row">
-            <div class="item">
-              <span class="label">姓名：</span>
-              <span class="detail">{{currendNOde.name}}</span>
+        <el-scrollbar style="height: 100%;">
+          <div class="current-box">
+            <div class="row">
+              <div class="item">
+                <span class="label">姓名：</span>
+                <span class="detail">{{currendNOde.name}}</span>
+              </div>
+              <div class="item">
+                <span class="label">权益卡号：</span>
+                <span class="detail">{{currendNOde.cellPhone || '暂无'}}</span>
+              </div>
             </div>
-            <div class="item">
-              <span class="label">权益卡号：</span>
-              <span class="detail">{{currendNOde.cellPhone || '暂无'}}</span>
+            <div class="row">
+              <div class="item">
+                <span class="label">联系电话：</span>
+                <span class="detail">{{currendNOde.contactNumber || '未填写'}}</span>
+              </div>
+              <div class="item">
+                <span class="label">身份：</span>
+                <span class="detail">{{currendNOde.userType || '暂无'}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="item">
+                <span class="label">支付宝账号：</span>
+                <span class="detail">{{currendNOde.aliPay || '未填写'}}</span>
+              </div>
+              <div class="item">
+                <span class="label">身份证号：</span>
+                <span class="detail">{{currendNOde.idCard || '暂无'}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="item">
+                <span class="label">银行卡号：</span>
+                <span class="detail">{{currendNOde.bankCard || '未填写'}}</span>
+              </div>
+              <div class="item">
+                <span class="label">开户行：</span>
+                <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="item">
+                <span class="label">推荐人电话：</span>
+                <span class="detail">{{currendNOde.recommenderPhone || '未填写'}}</span>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="item">
-              <span class="label">联系电话：</span>
-              <span class="detail">{{currendNOde.contactNumber || '未填写'}}</span>
-            </div>
-            <div class="item">
-              <span class="label">身份：</span>
-              <span class="detail">{{currendNOde.userType || '暂无'}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="item">
-              <span class="label">支付宝账号：</span>
-              <span class="detail">{{currendNOde.aliPay || '未填写'}}</span>
-            </div>
-            <div class="item">
-              <span class="label">身份证号：</span>
-              <span class="detail">{{currendNOde.idCard || '暂无'}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="item">
-              <span class="label">银行卡号：</span>
-              <span class="detail">{{currendNOde.bankCard || '未填写'}}</span>
-            </div>
-            <div class="item">
-              <span class="label">开户行：</span>
-              <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="item">
-              <span class="label">推荐人电话：</span>
-              <span class="detail">{{currendNOde.recommenderPhone || '未填写'}}</span>
-            </div>
-          </div>
-        </div>
+        </el-scrollbar>
       </div>
     </section>
   </div>
@@ -187,6 +191,10 @@ export default {
       this.getTreeByCellphone({ cellPhone: this.cellPhone }).then(res => {
         this.searchTree = [res]
         this.showSearchTree = true
+
+        this.$nextTick(() => {
+          this.$refs.searchTreeNode.setCurrentKey(this.cellPhone) // treeBox 元素的ref   value 绑定的node-key
+        })
       }).catch(err => {
         this.$toast(err)
       })
