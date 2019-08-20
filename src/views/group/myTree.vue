@@ -14,8 +14,9 @@
     <section :style="{ height: getScreenHeight +'px'}">
       <div class="tree-info">
         <el-scrollbar style="height: 100%;">
-          <div class="search-tree" v-if="showSearchTree">
+          <div style="width:100%;" v-if="showSearchTree">
             <el-tree
+              highlight-current
               :indent="0"
               empty-text=""
               :props="defaultProps"
@@ -60,56 +61,54 @@
         </el-scrollbar>
       </div>
       <div class="node-info" v-if="JSON.stringify(currendNOde) != '{}'">
-        <el-scrollbar style="height: 100%;">
-          <div class="current-box">
-            <div class="row">
-              <div class="item">
-                <span class="label">姓名：</span>
-                <span class="detail">{{currendNOde.name}}</span>
-              </div>
-              <div class="item">
-                <span class="label">权益卡号：</span>
-                <span class="detail">{{currendNOde.cellPhone || '暂无'}}</span>
-              </div>
+        <div class="current-box">
+          <div class="row">
+            <div class="item">
+              <span class="label">姓名:</span>
+              <span class="detail">{{currendNOde.name}}</span>
             </div>
-            <div class="row">
-              <div class="item">
-                <span class="label">联系电话：</span>
-                <span class="detail">{{currendNOde.contactNumber || '未填写'}}</span>
-              </div>
-              <div class="item">
-                <span class="label">身份：</span>
-                <span class="detail">{{currendNOde.userType || '暂无'}}</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="item">
-                <span class="label">支付宝账号：</span>
-                <span class="detail">{{currendNOde.aliPay || '未填写'}}</span>
-              </div>
-              <div class="item">
-                <span class="label">身份证号：</span>
-                <span class="detail">{{currendNOde.idCard || '暂无'}}</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="item">
-                <span class="label">银行卡号：</span>
-                <span class="detail">{{currendNOde.bankCard || '未填写'}}</span>
-              </div>
-              <div class="item">
-                <span class="label">开户行：</span>
-                <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="item">
-                <span class="label">推荐人电话：</span>
-                <span class="detail">{{currendNOde.recommenderPhone || '未填写'}}</span>
-              </div>
+            <div class="item">
+              <span class="label">权益卡号:</span>
+              <span class="detail">{{currendNOde.cellPhone || '暂无'}}</span>
             </div>
           </div>
-        </el-scrollbar>
+          <div class="row">
+            <div class="item">
+              <span class="label">联系电话:</span>
+              <span class="detail">{{currendNOde.contactNumber || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">身份:</span>
+              <span class="detail">{{currendNOde.userType || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">支付宝账号:</span>
+              <span class="detail">{{currendNOde.aliPay || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">身份证号:</span>
+              <span class="detail">{{currendNOde.idCard || '暂无'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">银行卡号:</span>
+              <span class="detail">{{currendNOde.bankCard || '未填写'}}</span>
+            </div>
+            <div class="item">
+              <span class="label">推荐人电话:</span>
+              <span class="detail">{{currendNOde.recommenderPhone || '未填写'}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="item">
+              <span class="label">开户行:</span>
+              <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -286,12 +285,14 @@ export default {
       overflow-y scroll;
       display flex
       .tree-info{
-        width: 50%;
-        overflow-x scroll
+        // width: 50%;
+        // overflow-x scroll
+        flex:1;
       }
       .node-info{
         padding-left 10px
-        width: 50%;
+        width: 500px
+        // width: 50%;
         // overflow-x scroll
         .current-box{
           padding: 10px;
