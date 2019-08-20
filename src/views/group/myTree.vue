@@ -108,6 +108,11 @@
               <span class="detail">{{currendNOde.openingBank || '暂无'}}</span>
             </div>
           </div>
+          <div class="row">
+            <el-button type="primary" round @click="operate_handle(0)">升级工号</el-button>
+            <el-button type="warning" round @click="operate_handle(1)">重置密码</el-button>
+            <el-button type="danger" round @click="operate_handle(2)">删除工号</el-button>
+          </div>
         </div>
       </div>
     </section>
@@ -176,6 +181,56 @@ export default {
         this.showSearchTree = false
       }
     },
+    operate_handle (type) {
+      let options = {}
+      const cellPhone = this.cellPhone
+      console.log(cellPhone)
+      switch (type) {
+        case 0:
+          options = {
+            title: '确认升级工号？',
+            type,
+            tip: 'info',
+            callback: this.updateWorker
+          }
+          break
+        case 1:
+          options = {
+            title: '确认重置密码？',
+            type,
+            tip: 'warning',
+            callback: this.resetPwd
+          }
+          break
+        case 2:
+          options = {
+            title: '此操作将永久删除该工号, 是否继续？',
+            type,
+            tip: 'warning',
+            callback: this.delWorker
+          }
+          break
+      }
+      this.$confirm(options.title, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: options.tip
+      }).then(() => {
+        if (!cellPhone) {
+          this.$message({
+            message: '请选择要操作的工号！',
+            type: 'warning'
+          })
+        } else {
+          options.callback()
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
     search_handle () {
       const reg = /^[1][3,4,5,7,8,9][0-9]{9}$/
 
@@ -199,8 +254,10 @@ export default {
       })
     },
     treeLabelclick (item, index) {
+      this.cellPhone = item.cellPhone
       item.showLoading = true
-      this.getTreeByCellphone({ cellPhone: item.cellPhone })
+
+      this.getTreeByCellphone({ cellPhone: this.cellPhone })
       .then(res => {
         if (res) {
           this.treeList[index].append = !this.treeList[index].append
@@ -258,6 +315,60 @@ export default {
       } else {
         return Promise.reject(getTreeByCellphone.errMsg || '获取失败')
       }
+    },
+    // 升级工号
+    updateWorker () {
+      this.$http.updateWorker({ cellPhone: this.cellPhone }).then(res => {
+        if (Boolean(res) === true) {
+          this.$message({
+            message: '工号升级成功！',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '工号升级失败！',
+            type: 'warning'
+          })
+        }
+      }).catch(err => {
+        err.errMsg && this.$message.error(err.errMsg)
+      })
+    },
+    // 重置密码
+    resetPwd () {
+      this.$http.resetPwd({ cellPhone: this.cellPhone }).then(res => {
+        if (Boolean(res) === true) {
+          this.$message({
+            message: '密码重置成功！',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '密码重置失败！',
+            type: 'warning'
+          })
+        }
+      }).catch(err => {
+        err.errMsg && this.$message.error(err.errMsg)
+      })
+    },
+    // 删除工号
+    delWorker () {
+      this.$http.delWorker({ cellPhone: this.cellPhone }).then(res => {
+        if (Boolean(res) === true) {
+          this.$message({
+            message: '删除工号成功！',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: '删除工号失败！',
+            type: 'warning'
+          })
+        }
+      }).catch(err => {
+        err && err.errMsg && this.$message.error(err.errMsg)
+      })
     }
   },
   watch: {
@@ -300,6 +411,7 @@ export default {
           border-radius: 10px;
           .row{
             display flex
+            justify-content: center;
             .item{
               flex 1
               height 40px

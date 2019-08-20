@@ -36,5 +36,17 @@ export default {
     // 通过手机号，查找关系树 cellPhone
     getTreeByCellphone (data) {
       return this.post(this.API_HOST + '/admin/user/info/get', data)
+    },
+    // 升级工号
+    updateWorker (data) {
+      return this.post(this.API_HOST + '/admin/user/upgrade', data)
+    },
+    // 删除工号
+    delWorker (data) {
+      return this.post(this.API_HOST + '/admin/user/delete', data)
+    },
+    // 重置密码
+    resetPwd (data) {
+      return this.post(this.API_HOST + '/admin/user/reset/pwd', data)
     }
 }

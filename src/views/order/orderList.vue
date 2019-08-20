@@ -61,7 +61,8 @@
             :value="item.value">
           </el-option>
         </el-select>
-
+      </div>
+      <div class="search-box">
         <el-date-picker
           v-model="value7"
           type="datetimerange"
@@ -79,8 +80,11 @@
           size="medium"
           @click="search_handle">
           搜索</el-button>
+
+          <el-button type="primary" icon="el-icon-download" size="medium">
+            <a href="http://admin.5g.meixuanlife.com/admin/card/export" style="color:#fff;">导出</a>
+          </el-button>
       </div>
-      <div class="search-box"></div>
       <!-- <el-button type="primary" icon="el-icon-download" size="medium">导出</el-button> -->
     </header>
     <section>
@@ -491,7 +495,6 @@ export default {
 <style lang="stylus" scoped>
   .orderlist{
     header{
-      min-height 50px
       // display flex
       // align-items center
       // justify-content space-between
@@ -499,6 +502,8 @@ export default {
       // min-width: 600px
       // overflow-x scroll
       .search-box{
+        min-height 40px
+        margin-bottom 10px
         // display flex;
         // margin-right: 20px;
         .parentPhone-input,
@@ -508,9 +513,9 @@ export default {
         .search-btn{
           margin-left 10px
         }
-        &:nth-child(2) {
-          margin-top 10px
-        }
+        // &:nth-child(2) {
+        //   margin-top 10px
+        // }
       }
     }
     section {
