@@ -99,7 +99,8 @@ export default {
             // if ()
             if (res && res.token) {
               this.$Utils.setCookie('token', res.token, 1)
-              this.$router.go(-1)
+              // this.$router.go(-1)
+              this.$router.replace('/')
             }
           }).catch(err => {
             this.$toast(err.errMsg || '登录失败')

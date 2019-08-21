@@ -81,9 +81,18 @@
           @click="search_handle">
           搜索</el-button>
 
-          <el-button type="primary" icon="el-icon-download" size="medium">
-            <a href="http://admin.5g.meixuanlife.com/admin/card/export" style="color:#fff;">导出</a>
-          </el-button>
+          <a v-if="!isExporting" href="http://admin.5g.meixuanlife.com/admin/card/export" @click="exportExcel" style="color:#fff;">
+            <el-button type="primary" icon="el-icon-download" size="medium">
+              导出
+            </el-button>
+          </a>
+          <el-button v-else type="primary" plain disabled icon="el-icon-loading" size="medium">
+              正在导出...
+            </el-button>
+          <!-- <el-button type="primary" @click="exportExcel" icon="el-icon-download" size="medium">
+              导出
+            </el-button> -->
+
       </div>
       <!-- <el-button type="primary" icon="el-icon-download" size="medium">导出</el-button> -->
     </header>
@@ -255,6 +264,7 @@
 <script>
 
 // import types from '@store/type'
+// import axios from 'axios'
 import MyTables from '@components/Common/Mytable'
 import { mapGetters } from 'vuex'
 
@@ -265,6 +275,7 @@ export default {
       dialogVisible: false,
       cellPhone: '',
       dialogMsg: '',
+      isExporting: false,
       value7: '',
       query: {
         pageNom: 1,
@@ -348,10 +359,15 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    exportExcel () {
+      this.isExporting = true
+      setTimeout(() => {
+        this.isExporting = false
+      }, 28000)
+    },
     async orderList () {
       this.flags.loading = true
       const orderList = await this.$http.orderList(this.query).catch(err => console.log(err))
-      console.log(orderList)
       if (orderList && orderList.records) {
         const { records = [], totalRecord } = orderList
         for (let i = 0; i < records.length; i++) {
@@ -397,7 +413,6 @@ export default {
           }
         }
         this.dataList = records
-        console.log(this.dataList)
         this.totalElements = totalRecord
         // this.query.pageNom++
       }
@@ -511,7 +526,7 @@ export default {
           margin-right 10px
         }
         .search-btn{
-          margin-left 10px
+          margin 0 10px
         }
         // &:nth-child(2) {
         //   margin-top 10px

@@ -1,7 +1,6 @@
 const Config = require('./build/index')
 const Utils = require('./build/utils')
 const _ENV = process.env.VUE_APP_ENV
-console.log(process.env.VUE_APP_ENV, 'process.env.VUE_APP_ENV')
 
 module.exports = {
 	baseUrl: Config[_ENV]['baseUrl'],

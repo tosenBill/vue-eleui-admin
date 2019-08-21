@@ -109,7 +109,7 @@
             </div>
           </div>
           <div class="row">
-            <el-button type="primary" round @click="operate_handle(0)">升级工号</el-button>
+            <el-button type="primary" round @click="operate_handle(0)" v-if="currendNOde.userType != '合作商A'">升级工号</el-button>
             <el-button type="warning" round @click="operate_handle(1)">重置密码</el-button>
             <el-button type="danger" round @click="operate_handle(2)">删除工号</el-button>
           </div>
@@ -225,10 +225,10 @@ export default {
           options.callback()
         }
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
+        // this.$message({
+        //   type: 'info',
+        //   message: '已取消'
+        // })
       })
     },
     search_handle () {
@@ -382,6 +382,13 @@ export default {
   }
 }
 </script>
+<style>
+  .el-tree-node.is-current > .el-tree-node__content {
+    background-color: #409EFF !important;
+    color: #fff;
+  }
+</style>
+
 <style lang="stylus" scoped>
   .mytree{
     header{

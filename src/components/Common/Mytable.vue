@@ -59,11 +59,10 @@ export default {
     }
   },
   mounted () {
-    console.log(this.loading)
-    this.maxHeight = `${document.documentElement.clientHeight}` - 200
+    this.maxHeight = `${document.documentElement.clientHeight}` - 250
     // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
     window.onresize = () => {
-      this.maxHeight = `${document.documentElement.clientHeight}` - 200
+      this.maxHeight = `${document.documentElement.clientHeight}` - 250
     }
   },
   created() {},
