@@ -24,16 +24,16 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
-    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-pwa": "^3.0.4",
-    "@vue/cli-plugin-unit-mocha": "^3.0.4",
-    "@vue/cli-service": "^3.0.4",
+    "@vue/cli-plugin-unit-mocha": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-plugin-lodash": "^3.3.4",
     "chai": "^4.1.2",
     "lodash-webpack-plugin": "^0.11.5",
     "node-sass": "^4.9.0",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^13.2.0",
     "vue-template-compiler": "^2.5.17"
   },
   "postcss": {
